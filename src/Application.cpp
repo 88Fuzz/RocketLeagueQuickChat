@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-const sf::Time Application::TIMEPERFRAME = sf::seconds(1.f / 60.f);
+const sf::Time Application::TIME_PER_FRAME = sf::seconds(1.f / 60.f);
 
 Application::Application(int width, int height, int windowStyle) :
                 window(sf::VideoMode(width, height), "RocketLeagueQuickChat", windowStyle)
@@ -20,11 +20,11 @@ void Application::run()
     {
         sf::Time dt = clock.restart();
         timeSinceLastUpdate += dt;
-        while(timeSinceLastUpdate > TIMEPERFRAME)
+        while(timeSinceLastUpdate > TIME_PER_FRAME)
         {
-            timeSinceLastUpdate -= TIMEPERFRAME;
+            timeSinceLastUpdate -= TIME_PER_FRAME;
             handleEvents();
-            update(TIMEPERFRAME);
+            update(TIME_PER_FRAME);
         }
 
         render();

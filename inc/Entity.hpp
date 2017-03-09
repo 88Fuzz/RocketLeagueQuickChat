@@ -19,6 +19,6 @@ class Entity : public sf::Transformable, public sf:: Drawable
      * Called once every tick to update the entity, with the time since the last update call.
      */
     virtual void update(sf::Time dt) = 0;
-}
+};
 
 #endif

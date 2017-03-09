@@ -14,7 +14,7 @@ public:
     void run();
 
 private:
-    static const sf::Time TIMEPERFRAME;
+    static const sf::Time TIME_PER_FRAME;
     sf::RenderWindow window;
 
     void handleEvents();
