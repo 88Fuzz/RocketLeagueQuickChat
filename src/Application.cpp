@@ -11,7 +11,7 @@ Application::Application(int width, int height, int windowStyle) :
     window.setKeyRepeatEnabled(false);
 }
 
-void Application::Run()
+void Application::run()
 {
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
@@ -23,15 +23,15 @@ void Application::Run()
         while(timeSinceLastUpdate > TIMEPERFRAME)
         {
             timeSinceLastUpdate -= TIMEPERFRAME;
-            HandleEvents();
-            Update(TIMEPERFRAME);
+            handleEvents();
+            update(TIMEPERFRAME);
         }
 
-        Render();
+        render();
     }
 }
 
-void Application::HandleEvents()
+void Application::handleEvents()
 {
     sf::Event event;
     while (window.pollEvent(event))
@@ -41,12 +41,12 @@ void Application::HandleEvents()
     }
 }
 
-void Application::Update(sf::Time dt)
+void Application::update(sf::Time dt)
 {
     std::cout << "Updating!! " << dt.asSeconds() << "\n";
 }
 
-void Application::Render()
+void Application::render()
 {
     window.clear();
 

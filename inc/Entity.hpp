@@ -13,12 +13,12 @@ class Entity : public sf::Transformable, public sf:: Drawable
     /*
      * Draw the current entity on the RenderTarget.
      */
-    virtual void Draw(RenderTarget &, RenderStates) const = 0;
+    virtual void draw(RenderTarget &, RenderStates) const = 0;
 
     /*
      * Called once every tick to update the entity, with the time since the last update call.
      */
-    virtual void Update(sf::Time dt) = 0;
+    virtual void update(sf::Time dt) = 0;
 }
 
 #endif

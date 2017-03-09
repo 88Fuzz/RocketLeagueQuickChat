@@ -11,15 +11,15 @@ class Application
 {
 public:
     Application(int, int, int);
-    void Run();
+    void run();
 
 private:
     static const sf::Time TIMEPERFRAME;
     sf::RenderWindow window;
 
-    void HandleEvents();
-    void Update(sf::Time);
-    void Render();
+    void handleEvents();
+    void update(sf::Time);
+    void render();
 };
 
 #endif
