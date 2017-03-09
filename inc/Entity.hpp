@@ -1,3 +1,6 @@
+#ifndef ENTITY_HPP
+#define ENTITY_HPP
+
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics/Drawable.hpp>
@@ -17,3 +20,5 @@ class Entity : public sf::Transformable, public sf:: Drawable
      */
     virtual void Update(sf::Time dt) = 0;
 }
+
+#endif
