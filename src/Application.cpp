@@ -7,7 +7,9 @@ const sf::Time Application::TIMEPERFRAME = sf::seconds(1.f / 60.f);
 
 Application::Application(int width, int height, int windowStyle) :
                 window(sf::VideoMode(width, height), "RocketLeagueQuickChat", windowStyle)
-{ }
+{
+    window.setKeyRepeatEnabled(false);
+}
 
 void Application::Run()
 {
