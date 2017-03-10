@@ -10,7 +10,7 @@ SRC = $(wildcard src/*.cpp)
 OBJS = $(patsubst src/%.cpp,obj/%.o,$(SRC))
 
 #Base arguments for C compiler.
-CFLAGS=-Wall -c -std=c++11
+CFLAGS=-Wall -c -std=c++1y
 #Library paths passed as flags.
 CFLAGS+= -I$(LOCAL_INCLUDES)
 
@@ -25,7 +25,7 @@ dirs:
 
 setupRelease:
 	@echo Adding release flags...
-	$(eval CFLAGS_RELEASE = $(CFLAGS) -O3)
+	$(eval CFLAGS_RELEASE = $(CFLAGS) -O0)
 
 setupDebug:
 	@echo Adding debug flags...
