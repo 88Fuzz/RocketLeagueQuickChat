@@ -2,7 +2,7 @@
 #define CHAT_OPTION_HPP
 
 #include "JsonSerializeable.hpp"
-//#include "ChatCategory.hpp"
+#include "ChatCategory.hpp"
 
 #include <string>
 
@@ -12,13 +12,16 @@ public:
     ChatOption(const std::string, const std::string);
     ChatOption(const nlohmann::json);
     nlohmann::json toJson() const;
-    std::string text;
-    //ChatCategory category;
-    std::string category;
+
+    const std::string getText() const;
+    const ChatCategory getCategory() const;
 
 private:
     static const std::string TEXT;
     static const std::string CATEGORY;
+
+    std::string text;
+    ChatCategory category;
 };
 
 #endif

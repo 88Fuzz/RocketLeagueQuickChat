@@ -8,7 +8,7 @@
 
 int main()
 {
-    ChatOption chatOption("fuck", "me");
+    ChatOption chatOption("fuck", "INFORMATION");
 
     nlohmann::json json = chatOption.toJson();
     std::cout << json.dump() << "\n\n";
@@ -25,13 +25,13 @@ int main()
     chatOptions.push_back(chatOption);
     chatOptions.push_back(chatOption);
     chatOptions.push_back(chatOption);
-    ChatOptionHelper::writeVectorToFile("chatOptions.json", chatOptions);
+    ChatOptionHelper::writeVectorToFile("ChatOptions.json", chatOptions);
 
-    std::vector<ChatOption> otherChatOptions = ChatOptionHelper::readVectorFromFile("chatOptions.json");
+    std::vector<ChatOption> otherChatOptions = ChatOptionHelper::readVectorFromFile("ChatOptions.json");
 
     for(const ChatOption newChatOption: otherChatOptions)
     {
-        std::cout << newChatOption.text << " " << newChatOption.category << "\n";
+        std::cout << newChatOption.getText() << " " << newChatOption.getCategory() << "\n";
     }
 
 
