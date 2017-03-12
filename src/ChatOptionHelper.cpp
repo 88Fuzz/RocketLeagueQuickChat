@@ -37,7 +37,6 @@ std::vector<ChatOption> ChatOptionHelper::readVectorFromFile(const std::string f
 
     for(auto element : json) 
     {
-        std::cout << element << '\n';
         chatOptions.push_back(ChatOption(element));
     }
 

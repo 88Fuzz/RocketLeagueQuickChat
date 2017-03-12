@@ -20,7 +20,15 @@ public:
      */
     static std::vector<ChatOption> readVectorFromFile(const std::string);
 
-    static std::experimental::optional<ChatCategory> fromSerializeString(const std::string str);
+    /*
+     * Return the ChatCategory that corresponds to the string.
+     * Returns empty optional if the string does not translate to a category.
+     */
+    static std::experimental::optional<ChatCategory> fromSerializeString(const std::string);
+
+    /*
+     * Converts the ChatCategory to a string
+     */
     static std::experimental::optional<std::string> toSerializeString(const ChatCategory);
 
 private:
