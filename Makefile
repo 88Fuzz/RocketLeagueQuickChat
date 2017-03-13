@@ -1,18 +1,18 @@
-PROJECT_NAME = RocketLeagueQuickChat
+PROJECT_NAME=RocketLeagueQuickChat
 LOCAL_INCLUDES=inc/
 SFML_LINKS=-lsfml-graphics -lsfml-window -lsfml-system
-DIRS = obj bin
+DIRS=obj bin
 
 CC=g++
 LL=g++
-EXE = bin/$(PROJECT_NAME)
-SRC = $(wildcard src/*.cpp)
-OBJS = $(patsubst src/%.cpp,obj/%.o,$(SRC))
+EXE=bin/$(PROJECT_NAME)
+SRC=$(wildcard src/*.cpp)
+OBJS=$(patsubst src/%.cpp,obj/%.o,$(SRC))
 
 #Base arguments for C compiler.
 CFLAGS=-Wall -Werror -c -std=c++1y
 #Library paths passed as flags.
-CFLAGS+= -I$(LOCAL_INCLUDES)
+CFLAGS+=-I$(LOCAL_INCLUDES)
 
 LFLAGS=
 
