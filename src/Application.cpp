@@ -9,6 +9,7 @@ Application::Application(int width, int height, int windowStyle) :
                 window(sf::VideoMode(width, height), "RocketLeagueQuickChat", windowStyle)
 {
     window.setKeyRepeatEnabled(false);
+    buttonEventHandler.registerDownListener(ButtonEvent::UP, &yourMom);
 }
 
 void Application::run()
@@ -23,7 +24,8 @@ void Application::run()
         while(timeSinceLastUpdate > TIME_PER_FRAME)
         {
             timeSinceLastUpdate -= TIME_PER_FRAME;
-            handleEvents();
+            handleButtonEvents(TIME_PER_FRAME);
+            handleSFMLEvents();
             update(TIME_PER_FRAME);
         }
 
@@ -31,19 +33,23 @@ void Application::run()
     }
 }
 
-void Application::handleEvents()
+void Application::handleButtonEvents(sf::Time dt)
+{
+    buttonEventHandler.handleEvents(dt);
+}
+
+void Application::handleSFMLEvents()
 {
     sf::Event event;
     while (window.pollEvent(event))
     {
-        if (event.type == sf::Event::Closed)
+        if (event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
             window.close();
     }
 }
 
 void Application::update(sf::Time dt)
 {
-    std::cout << "Updating!! " << dt.asSeconds() << "\n";
 }
 
 void Application::render()

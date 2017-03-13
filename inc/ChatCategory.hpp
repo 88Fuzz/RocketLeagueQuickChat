@@ -8,7 +8,7 @@ enum ChatCategory
     REACTIONS,
     APOLOGIES,
     POST_GAME,
-    END_ENUM
+    END_CHAT_CATEGORY
 };
 
 #endif

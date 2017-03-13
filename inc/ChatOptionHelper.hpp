@@ -6,6 +6,7 @@
 #include <string>
 #include <experimental/optional>
 #include <vector>
+#include <map>
 
 class ChatOptionHelper
 {

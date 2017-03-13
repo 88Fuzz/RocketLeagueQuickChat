@@ -1,6 +1,9 @@
 #ifndef APPLICATION_HPP
 #define APPLICATION_HPP
 
+#include "EventHandler.hpp"
+#include "TestEvent.hpp"
+
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 
@@ -16,8 +19,11 @@ public:
 private:
     static const sf::Time TIME_PER_FRAME;
     sf::RenderWindow window;
+    EventHandler buttonEventHandler;
+    TestEvent yourMom;
 
-    void handleEvents();
+    void handleSFMLEvents();
+    void handleButtonEvents(sf::Time);
     void update(sf::Time);
     void render();
 };

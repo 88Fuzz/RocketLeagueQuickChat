@@ -10,7 +10,7 @@ const std::string COMPLIMENTS_STRING = "COMPLIMENTS";
 const std::string REACTIONS_STRING = "REACTIONS";
 const std::string APOLOGIES_STRING = "APOLOGIES";
 const std::string POST_GAME_STRING = "POST_GAME";
-const std::string END_ENUM_STRING = "END_ENUM";
+const std::string END_CHAT_CATEGORY_STRING = "END_CHAT_CATEGORY";
 
 void ChatOptionHelper::writeVectorToFile(const std::string fileName, const std::vector<ChatOption> chatOptions)
 {
@@ -70,7 +70,7 @@ std::map<std::string, ChatCategory> ChatOptionHelper::stringToEnumMap =
     {REACTIONS_STRING, REACTIONS},
     {APOLOGIES_STRING, APOLOGIES},
     {POST_GAME_STRING, POST_GAME},
-    {END_ENUM_STRING, END_ENUM},
+    {END_CHAT_CATEGORY_STRING, END_CHAT_CATEGORY}
 };
 
 std::map<ChatCategory, std::string> ChatOptionHelper::enumToStringMap =
@@ -80,5 +80,5 @@ std::map<ChatCategory, std::string> ChatOptionHelper::enumToStringMap =
     {REACTIONS, REACTIONS_STRING},
     {APOLOGIES, APOLOGIES_STRING},
     {POST_GAME, POST_GAME_STRING},
-    {END_ENUM, END_ENUM_STRING}
+    {END_CHAT_CATEGORY, END_CHAT_CATEGORY_STRING}
 };
