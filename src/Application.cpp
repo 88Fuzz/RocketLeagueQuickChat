@@ -6,10 +6,17 @@
 const sf::Time Application::TIME_PER_FRAME = sf::seconds(1.f / 60.f);
 
 Application::Application(int width, int height, int windowStyle) :
-                window(sf::VideoMode(width, height), "RocketLeagueQuickChat", windowStyle)
+                window(sf::VideoMode(width, height), "RocketLeagueQuickChat", windowStyle), testing(0)
 {
     window.setKeyRepeatEnabled(false);
-    buttonEventHandler.registerDownListener(ButtonEvent::UP, &yourMom);
+    buttonEventHandler.registerDownListener(ButtonEvent::UP, [this](ButtonEvent buttonEvent) 
+    {
+        std::cout << buttonEvent << " Go fuck yourself! " << ++testing << "\n";
+    });
+    buttonEventHandler.registerUpListener(ButtonEvent::UP, [this](ButtonEvent buttonEvent) 
+    {
+        std::cout << buttonEvent << " Go unfuck yourself! " << --testing << "\n";
+    });
 }
 
 void Application::run()

@@ -2,12 +2,12 @@
 #define EVENT_HANDLER_HPP 
 
 #include "ButtonEvent.hpp"
-#include "EventHandlerCallback.hpp"
 
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <map>
 #include <set>
+#include <functional>
 
 class EventHandler
 {
@@ -16,12 +16,12 @@ public:
     /*
      * Register a function to be called whenever a ButtenEven is pressed.
      */
-    void registerDownListener(ButtonEvent, EventHandlerCallback*);
+    void registerDownListener(ButtonEvent, std::function<void(ButtonEvent)>);
 
     /*
      * Register a function to be called whenever a ButtenEven is released.
      */
-    void registerUpListener(ButtonEvent, EventHandlerCallback*);
+    void registerUpListener(ButtonEvent, std::function<void(ButtonEvent)>);
 
     /*
      * Check for ButtonEvent actions (pressed or released).
@@ -29,8 +29,8 @@ public:
     void handleEvents(sf::Time);
 
 private:
-    std::map<ButtonEvent, EventHandlerCallback*> buttonDownListener;
-    std::map<ButtonEvent, EventHandlerCallback*> buttonUpListener;
+    std::map<ButtonEvent, std::function<void(ButtonEvent)>> buttonDownListener;
+    std::map<ButtonEvent, std::function<void(ButtonEvent)>> buttonUpListener;
     std::map<ButtonEvent, sf::Keyboard::Key> buttonEventKey;
     std::set<ButtonEvent> activeButtonEvents;
 

@@ -16,15 +16,13 @@ bool EventHandler::checkButtonStatus(sf::Keyboard::Key key)
     return sf::Keyboard::isKeyPressed(key);
 }
 
-void EventHandler::registerDownListener(ButtonEvent buttonEvent, EventHandlerCallback* callback)
+void EventHandler::registerDownListener(ButtonEvent buttonEvent, std::function<void(ButtonEvent)> callback)
 {
-    callback->buttonDown(ButtonEvent::RIGHT);
     buttonDownListener[buttonEvent] = callback;
 }
 
-void EventHandler::registerUpListener(ButtonEvent buttonEvent, EventHandlerCallback* callback)
+void EventHandler::registerUpListener(ButtonEvent buttonEvent, std::function<void(ButtonEvent)> callback)
 {
-    callback->buttonDown(ButtonEvent::RIGHT);
     buttonUpListener[buttonEvent] = callback;
 }
 
@@ -39,7 +37,7 @@ void EventHandler::handleEvents(sf::Time dt)
             activeButtonEvents.insert(itr.first);
             const auto action = buttonDownListener.find(itr.first);
             if(action != buttonDownListener.end())
-                action->second->buttonDown(itr.first);
+                action->second(itr.first);
             else
                 std::cout << "Button is pressed for the first time but nothing to do!\n";
         }
@@ -48,7 +46,7 @@ void EventHandler::handleEvents(sf::Time dt)
             activeButtonEvents.erase(itr.first);
             const auto action = buttonUpListener.find(itr.first);
             if(action != buttonUpListener.end())
-                action->second->buttonUp(itr.first);
+                action->second(itr.first);
             else
                 std::cout << "Button is released for the first time but nothing to do!\n";
         }

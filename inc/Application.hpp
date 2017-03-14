@@ -2,7 +2,6 @@
 #define APPLICATION_HPP
 
 #include "EventHandler.hpp"
-#include "TestEvent.hpp"
 
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -20,7 +19,7 @@ private:
     static const sf::Time TIME_PER_FRAME;
     sf::RenderWindow window;
     EventHandler buttonEventHandler;
-    TestEvent yourMom;
+    int testing;
 
     void handleSFMLEvents();
     void handleButtonEvents(sf::Time);
