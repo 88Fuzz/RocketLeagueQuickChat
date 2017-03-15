@@ -25,12 +25,12 @@ public:
      * Return the ChatCategory that corresponds to the string.
      * Returns empty optional if the string does not translate to a category.
      */
-    static std::experimental::optional<ChatCategory> fromSerializeString(const std::string);
+    static const std::experimental::optional<ChatCategory> fromSerializeString(const std::string);
 
     /*
      * Converts the ChatCategory to a string
      */
-    static std::experimental::optional<std::string> toSerializeString(const ChatCategory);
+    static const std::experimental::optional<std::string> toSerializeString(const ChatCategory);
 
 private:
     static std::map<std::string, ChatCategory> stringToEnumMap;

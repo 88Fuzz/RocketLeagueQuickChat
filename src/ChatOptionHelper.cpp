@@ -43,7 +43,7 @@ std::vector<ChatOption> ChatOptionHelper::readVectorFromFile(const std::string f
     return chatOptions;
 }
 
-std::experimental::optional<ChatCategory> ChatOptionHelper::fromSerializeString(const std::string str)
+const std::experimental::optional<ChatCategory> ChatOptionHelper::fromSerializeString(const std::string str)
 {
     typename std::map<std::string, ChatCategory>::const_iterator itr = stringToEnumMap.find(str);
 
@@ -53,7 +53,7 @@ std::experimental::optional<ChatCategory> ChatOptionHelper::fromSerializeString(
     return itr->second;
 }
 
-std::experimental::optional<std::string> ChatOptionHelper::toSerializeString(const ChatCategory enumVal)
+const std::experimental::optional<std::string> ChatOptionHelper::toSerializeString(const ChatCategory enumVal)
 {
     typename std::map<ChatCategory, std::string>::const_iterator itr = enumToStringMap.find(enumVal);
 

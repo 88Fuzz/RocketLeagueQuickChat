@@ -10,7 +10,7 @@ SRC=$(wildcard src/*.cpp)
 OBJS=$(patsubst src/%.cpp,obj/%.o,$(SRC))
 
 #Base arguments for C compiler.
-CFLAGS=-Wall -Werror -c -std=c++1y
+CFLAGS=-Wall -c -std=c++1y
 #Library paths passed as flags.
 CFLAGS+=-I$(LOCAL_INCLUDES)
 
