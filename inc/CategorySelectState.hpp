@@ -13,22 +13,23 @@
 class CategorySelectState : public State
 {
 public:
-    CategorySelectState(const Context&, const std::vector<ChatOption>);
+    CategorySelectState(Context&, std::vector<ChatOption>);
+    ~CategorySelectState();
 
     /*
      * Draw anything on the RenderTarget.
      */
-    void draw(sf::RenderTarget&, const sf::RenderStates) const;
+    void draw(sf::RenderTarget&, sf::RenderStates) const;
 
     /*
      * Called once every tick to update the entity, with the time since the last update call.
      */
-    void update(const sf::Time dt);
+    void update(sf::Time dt);
 private:
-    std::map<ChatCategory, std::vector<ChatOptionEntity *>> categoryMap;
-    std::vector<SharedChatCategoryEntity> chatCategoryEntities;
+    std::map<ChatCategory, std::vector<SharedEntity>> categoryMap;
+    std::vector<SharedEntity> chatCategoryEntities;
 
-    std::vector<ChatOptionEntity *>& getOrCreateChatOptionList(const ChatCategory);
+    std::vector<SharedEntity>& getOrCreateChatOptionList(ChatCategory);
 };
 
 

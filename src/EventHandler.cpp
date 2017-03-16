@@ -28,14 +28,14 @@ void EventHandler::registerUpListener(ButtonEvent buttonEvent, std::function<voi
 
 void EventHandler::handleEvents(sf::Time dt)
 {
-    for(auto const &itr : buttonEventKey)
+    for(auto &itr : buttonEventKey)
     {
-        const auto activeButton = activeButtonEvents.find(itr.first);
-        const bool buttonDown = checkButtonStatus(itr.second);
+        auto activeButton = activeButtonEvents.find(itr.first);
+        bool buttonDown = checkButtonStatus(itr.second);
         if(buttonDown && activeButton == activeButtonEvents.end())
         {
             activeButtonEvents.insert(itr.first);
-            const auto action = buttonDownListener.find(itr.first);
+            auto action = buttonDownListener.find(itr.first);
             if(action != buttonDownListener.end())
                 action->second(itr.first);
             else
@@ -44,7 +44,7 @@ void EventHandler::handleEvents(sf::Time dt)
         else if(!buttonDown && activeButton != activeButtonEvents.end())
         {
             activeButtonEvents.erase(itr.first);
-            const auto action = buttonUpListener.find(itr.first);
+            auto action = buttonUpListener.find(itr.first);
             if(action != buttonUpListener.end())
                 action->second(itr.first);
             else

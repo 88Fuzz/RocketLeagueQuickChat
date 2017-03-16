@@ -14,9 +14,7 @@ Application::Application(int width, int height, int windowStyle) :
     window.setKeyRepeatEnabled(false);
     font.loadFromFile("fonts/Pacifico.ttf");
 
-    std::cout << "fuck?\n";
     currentState = new CategorySelectState(context, ChatOptionHelper::readVectorFromFile("ChatOptions.json"));
-    std::cout <<"about to register\n";
     buttonEventHandler.registerDownListener(ButtonEvent::UP, [this](ButtonEvent buttonEvent) 
     {
         std::cout << buttonEvent << " Go fuck yourself! " << ++testing << "\n";
@@ -25,14 +23,11 @@ Application::Application(int width, int height, int windowStyle) :
     {
         std::cout << buttonEvent << " Go unfuck yourself! " << --testing << "\n";
     });
-    std::cout <<"Done registering\n";
 }
 
 Application::~Application()
 {
-    std::cout << "Deleting this shit\n";
     delete currentState;
-    std::cout << "Done deleting\n";
 }
 
 void Application::run()

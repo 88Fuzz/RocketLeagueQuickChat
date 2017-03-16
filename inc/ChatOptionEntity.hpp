@@ -11,7 +11,8 @@
 class ChatOptionEntity : public Entity
 {
 public:
-    ChatOptionEntity(sf::Font&, const ChatOption);
+    ChatOptionEntity(sf::Font&, ChatOption);
+    ~ChatOptionEntity();
     /*
      * Draw the current entity on the RenderTarget.
      */
@@ -27,12 +28,10 @@ public:
      */
     void setColor(sf::Color);
 
-    const ChatOption getChatOption() const;
+    ChatOption getChatOption() const;
 private:
     sf::Text text;
-    const ChatOption chatOption;
+    ChatOption chatOption;
 };
-
-typedef std::shared_ptr<ChatOptionEntity> SharedChatOptionEntity;
 
 #endif

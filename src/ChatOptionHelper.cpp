@@ -12,24 +12,24 @@ const std::string APOLOGIES_STRING = "APOLOGIES";
 const std::string POST_GAME_STRING = "POST_GAME";
 const std::string END_CHAT_CATEGORY_STRING = "END_CHAT_CATEGORY";
 
-void ChatOptionHelper::writeVectorToFile(const std::string fileName, const std::vector<ChatOption> chatOptions)
+void ChatOptionHelper::writeVectorToFile(std::string fileName, std::vector<ChatOption> chatOptions)
 {
     std::ofstream file;
     file.open(fileName);
 
     int i = 0;
     nlohmann::json json;
-    for(const ChatOption chatOption: chatOptions)
+    for(ChatOption chatOption: chatOptions)
         json[i++] = chatOption.toJson();
 
     file << json.dump();
     file.close();
 }
 
-std::vector<ChatOption> ChatOptionHelper::readVectorFromFile(const std::string fileName)
+std::vector<ChatOption> ChatOptionHelper::readVectorFromFile(std::string fileName)
 {
     std::vector<ChatOption> chatOptions;
-    const std::ifstream file(fileName);
+    std::ifstream file(fileName);
     std::stringstream buffer;
 
     buffer << file.rdbuf();
@@ -43,7 +43,7 @@ std::vector<ChatOption> ChatOptionHelper::readVectorFromFile(const std::string f
     return chatOptions;
 }
 
-const std::experimental::optional<ChatCategory> ChatOptionHelper::fromSerializeString(const std::string str)
+std::experimental::optional<ChatCategory> ChatOptionHelper::fromSerializeString(std::string str)
 {
     typename std::map<std::string, ChatCategory>::const_iterator itr = stringToEnumMap.find(str);
 
@@ -53,7 +53,7 @@ const std::experimental::optional<ChatCategory> ChatOptionHelper::fromSerializeS
     return itr->second;
 }
 
-const std::experimental::optional<std::string> ChatOptionHelper::toSerializeString(const ChatCategory enumVal)
+std::experimental::optional<std::string> ChatOptionHelper::toSerializeString(ChatCategory enumVal)
 {
     typename std::map<ChatCategory, std::string>::const_iterator itr = enumToStringMap.find(enumVal);
 

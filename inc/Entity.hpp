@@ -5,12 +5,15 @@
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
+#include <memory>
 
 /*
  * Entity is the bast class that should be drawn on the screen.
  */
 class Entity : public sf::Transformable, public sf:: Drawable
 {
+public:
+    virtual ~Entity();
     /*
      * Draw the current entity on the RenderTarget.
      */
@@ -21,5 +24,7 @@ class Entity : public sf::Transformable, public sf:: Drawable
      */
     virtual void update(sf::Time dt) = 0;
 };
+
+typedef std::shared_ptr<Entity> SharedEntity;
 
 #endif

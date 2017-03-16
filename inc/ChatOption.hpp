@@ -9,17 +9,17 @@
 class ChatOption: public JsonSerializeable
 {
 public:
-    ChatOption(const std::string, const ChatCategory);
-    ChatOption(const std::string, const std::string);
-    ChatOption(const nlohmann::json);
+    ChatOption(std::string, ChatCategory);
+    ChatOption(std::string, std::string);
+    ChatOption(nlohmann::json);
 
     /*
      * Converts the object to json.
      */
     nlohmann::json toJson() const;
 
-    const std::string getText() const;
-    const ChatCategory getCategory() const;
+    std::string getText() const;
+    ChatCategory getCategory() const;
 
 private:
     static const std::string TEXT;
@@ -31,11 +31,11 @@ private:
     /*
      * Helper method to set the text and category for each constructor.
      */
-    void init(const std::string, const std::string);
+    void init(std::string, std::string);
     /*
      * Helper method to set the text and category for each constructor.
      */
-    void init(const std::string, const ChatCategory);
+    void init(std::string, ChatCategory);
 };
 
 #endif

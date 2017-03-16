@@ -3,52 +3,50 @@
 
 #include <iostream>
 
-CategorySelectState::CategorySelectState(const Context& context,const std::vector<ChatOption> chatOptions): State(context)
+CategorySelectState::CategorySelectState(Context& context,std::vector<ChatOption> chatOptions): State(context)
 {
     int i = 0;
-    for(const auto chatOption: chatOptions)
+    for(auto chatOption: chatOptions)
     {
         ChatCategory category = chatOption.getCategory();
 
-        SharedChatCategoryEntity categoryEntity(new ChatCategoryEntity(context.getFont(), category));
+        SharedEntity categoryEntity(new ChatCategoryEntity(context.getFont(), category));
         categoryEntity.get()->move(10,60*i++);
         chatCategoryEntities.push_back(categoryEntity);
 
-
-        ChatOptionEntity* optionEntity = new ChatOptionEntity(context.getFont(), chatOption);
+        SharedEntity optionEntity(new ChatOptionEntity(context.getFont(), chatOption));
         auto chatOptionList = getOrCreateChatOptionList(category);
         chatOptionList.push_back(optionEntity);
-
-        //SharedChatOptionEntity optionEntity(new ChatOptionEntity(context.getFont(), chatOption));
-        //auto chatOptionList = getOrCreateChatOptionList(category);
-        //chatOptionList.push_back(optionEntity);
     }
 }
 
-//std::vector<SharedChatOptionEntity>& CategorySelectState::getOrCreateChatOptionList(const ChatCategory category)
-std::vector<ChatOptionEntity*>& CategorySelectState::getOrCreateChatOptionList(const ChatCategory category)
+CategorySelectState::~CategorySelectState()
 {
-        const auto optionListItr = categoryMap.find(category);
+}
+
+std::vector<SharedEntity>& CategorySelectState::getOrCreateChatOptionList(ChatCategory category)
+{
+        auto optionListItr = categoryMap.find(category);
         if(optionListItr == categoryMap.end())
         {
-            const auto optionList = std::vector<ChatOptionEntity*>();
+            auto optionList = std::vector<SharedEntity>();
             categoryMap[category] = optionList;
         }
 
         return categoryMap[category];
 }
 
-void CategorySelectState::draw(sf::RenderTarget& renderTarget,const sf::RenderStates renderStates) const
+void CategorySelectState::draw(sf::RenderTarget& renderTarget,sf::RenderStates renderStates) const
 {
-    for(const auto entity: chatCategoryEntities)
+    for(auto entity: chatCategoryEntities)
     {
         entity.get()->draw(renderTarget, renderStates);
     }
 }
 
-void CategorySelectState::update(const sf::Time dt)
+void CategorySelectState::update(sf::Time dt)
 {
-    for(const auto entity: chatCategoryEntities)
+    for(auto entity: chatCategoryEntities)
     {
         entity.get()->update(dt);
     }

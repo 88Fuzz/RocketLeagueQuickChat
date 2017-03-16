@@ -1,15 +1,19 @@
 #include "ChatCategoryEntity.hpp"
 #include "ChatOptionHelper.hpp"
 
-ChatCategoryEntity::ChatCategoryEntity(sf::Font& font, const ChatCategory chatCategory): chatCategory(chatCategory)
+ChatCategoryEntity::ChatCategoryEntity(sf::Font& font, ChatCategory chatCategory): chatCategory(chatCategory)
 {
     text.setFont(font);
 
-    const auto optionalString = ChatOptionHelper::toSerializeString(chatCategory);
+    auto optionalString = ChatOptionHelper::toSerializeString(chatCategory);
     if(optionalString)
         text.setString(*optionalString);
 
     text.setColor(sf::Color::Red);
+}
+
+ChatCategoryEntity::~ChatCategoryEntity()
+{
 }
 
 void ChatCategoryEntity::draw(sf::RenderTarget &renderTarget, sf::RenderStates renderStates) const
@@ -22,7 +26,7 @@ void ChatCategoryEntity::update(sf::Time dt)
     text.setPosition(getPosition());
 }
 
-const ChatCategory ChatCategoryEntity::getChatCategory() const
+ChatCategory ChatCategoryEntity::getChatCategory() const
 {
     return chatCategory;
 }

@@ -1,5 +1,9 @@
 #include "State.hpp"
 
-State::State(const Context& context): context(context)
+State::State(Context& context): context(context)
+{
+}
+
+State::~State()
 {
 }

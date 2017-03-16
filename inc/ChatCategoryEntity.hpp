@@ -11,7 +11,9 @@
 class ChatCategoryEntity : public Entity
 {
 public:
-    ChatCategoryEntity(sf::Font&, const ChatCategory);
+    ChatCategoryEntity(sf::Font&, ChatCategory);
+    virtual ~ChatCategoryEntity();
+
     /*
      * Draw the current entity on the RenderTarget.
      */
@@ -27,12 +29,10 @@ public:
      */
     void setColor(sf::Color);
 
-    const ChatCategory getChatCategory() const;
+    ChatCategory getChatCategory() const;
 private:
     sf::Text text;
-    const ChatCategory chatCategory;
+    ChatCategory chatCategory;
 };
-
-typedef std::shared_ptr<ChatCategoryEntity> SharedChatCategoryEntity;
 
 #endif

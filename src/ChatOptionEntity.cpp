@@ -4,8 +4,11 @@ ChatOptionEntity::ChatOptionEntity(sf::Font& font, ChatOption chatOption):chatOp
 {
     text.setFont(font);
 
-    text.setString(chatOption.getText());
+    text.setString("nope");
     text.setColor(sf::Color::Red);
+}
+ChatOptionEntity::~ChatOptionEntity()
+{
 }
 
 void ChatOptionEntity::draw(sf::RenderTarget &renderTarget, sf::RenderStates renderStates) const
@@ -23,7 +26,7 @@ void ChatOptionEntity::setColor(sf::Color color)
     text.setColor(color);
 }
 
-const ChatOption ChatOptionEntity::getChatOption() const
+ChatOption ChatOptionEntity::getChatOption() const
 {
     return chatOption;
 }

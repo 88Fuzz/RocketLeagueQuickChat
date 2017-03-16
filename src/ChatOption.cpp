@@ -4,20 +4,20 @@
 const std::string ChatOption::TEXT = "text";
 const std::string ChatOption::CATEGORY = "category";
 
-ChatOption::ChatOption(const std::string text, const ChatCategory category)
+ChatOption::ChatOption(std::string text, ChatCategory category)
 {
     init(text, category);
 }
 
-ChatOption::ChatOption(const std::string text, const std::string category)
+ChatOption::ChatOption(std::string text, std::string category)
 { 
     init(text, category);
 }
 
-ChatOption::ChatOption(const nlohmann::json json)
+ChatOption::ChatOption(nlohmann::json json)
 { 
-    const std::string text = json[TEXT];
-    const std::string category = json[CATEGORY];
+    std::string text = json[TEXT];
+    std::string category = json[CATEGORY];
 
     init(text, category);
 }
@@ -33,24 +33,24 @@ nlohmann::json ChatOption::toJson() const
     return json;
 }
 
-const std::string ChatOption::getText() const
+std::string ChatOption::getText() const
 {
     return text;
 }
 
-const ChatCategory ChatOption::getCategory() const
+ChatCategory ChatOption::getCategory() const
 {
     return category;
 }
 
-void ChatOption::init(const std::string text, const std::string category)
+void ChatOption::init(std::string text, std::string category)
 {
     auto optionalCategory = ChatOptionHelper::fromSerializeString(category);
     if(optionalCategory)
         init(text, *optionalCategory);
 }
 
-void ChatOption::init(const std::string text, const ChatCategory category)
+void ChatOption::init(std::string text, ChatCategory category)
 {
     this->text = text;
     this->category = category;
