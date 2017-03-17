@@ -2,35 +2,31 @@
 #define CHAT_OPTION_ENTITY_HPP
 
 #include "ChatOption.hpp"
-#include "Entity.hpp"
+#include "TextEntity.hpp"
 
 #include <SFML/Graphics/Font.hpp>
-#include <SFML/Graphics/Text.hpp>
 #include <memory>
 
-class ChatOptionEntity : public Entity
+class ChatOptionEntity : public TextEntity
 {
 public:
     ChatOptionEntity(sf::Font&, ChatOption);
     ~ChatOptionEntity();
+
+    ChatOption getChatOption() const;
+
+protected:
     /*
      * Draw the current entity on the RenderTarget.
      */
-    void draw(sf::RenderTarget&, sf::RenderStates) const;
+    void localDraw(sf::RenderTarget&, sf::RenderStates) const;
 
     /*
      * Called once every tick to update the entity, with the time since the last update call.
      */
-    void update(sf::Time dt);
+    void localUpdate(sf::Time dt);
 
-    /*
-     * Set the color of the text
-     */
-    void setColor(sf::Color);
-
-    ChatOption getChatOption() const;
 private:
-    sf::Text text;
     ChatOption chatOption;
 };
 

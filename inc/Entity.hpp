@@ -8,7 +8,7 @@
 #include <memory>
 
 /*
- * Entity is the bast class that should be drawn on the screen.
+ * Entity is the base class that should be drawn on the screen.
  */
 class Entity : public sf::Transformable, public sf:: Drawable
 {
@@ -22,7 +22,7 @@ public:
     /*
      * Called once every tick to update the entity, with the time since the last update call.
      */
-    virtual void update(sf::Time dt) = 0;
+    virtual void update(sf::Time) = 0;
 };
 
 typedef std::shared_ptr<Entity> SharedEntity;

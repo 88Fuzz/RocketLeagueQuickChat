@@ -1,37 +1,29 @@
 #ifndef CATEGORY_ENTITY_HPP
 #define CATEGORY_ENTITY_HPP
 
-#include "Entity.hpp"
+#include "TextEntity.hpp"
 #include "ChatCategory.hpp"
 
 #include <SFML/Graphics/Font.hpp>
-#include <SFML/Graphics/Text.hpp>
 #include <memory>
 
-class ChatCategoryEntity : public Entity
+class ChatCategoryEntity : public TextEntity
 {
 public:
     ChatCategoryEntity(sf::Font&, ChatCategory);
     virtual ~ChatCategoryEntity();
 
+    ChatCategory getChatCategory() const;
+protected:
     /*
      * Draw the current entity on the RenderTarget.
      */
-    void draw(sf::RenderTarget&, sf::RenderStates) const;
-
+    virtual void localDraw(sf::RenderTarget&, sf::RenderStates) const;
     /*
      * Called once every tick to update the entity, with the time since the last update call.
      */
-    void update(sf::Time dt);
-
-    /*
-     * Set the color of the text
-     */
-    void setColor(sf::Color);
-
-    ChatCategory getChatCategory() const;
+    virtual void localUpdate(sf::Time);
 private:
-    sf::Text text;
     ChatCategory chatCategory;
 };
 
