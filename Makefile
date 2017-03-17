@@ -1,5 +1,7 @@
 PROJECT_NAME=RocketLeagueQuickChat
 LOCAL_INCLUDES=inc/
+SFML_INCS=/home/kyle/workspace/SFML-master/include/
+SFML_LIBS=/home/kyle/workspace/SFML-master/build/lib/
 SFML_LINKS=-lsfml-graphics -lsfml-window -lsfml-system
 DIRS=obj bin
 
@@ -12,9 +14,9 @@ OBJS=$(patsubst src/%.cpp,obj/%.o,$(SRC))
 #Base arguments for C compiler.
 CFLAGS=-Wall -c -std=c++1y
 #Library paths passed as flags.
-CFLAGS+=-I$(LOCAL_INCLUDES)
+CFLAGS+=-I$(LOCAL_INCLUDES) -I$(SFML_INCS)
 
-LFLAGS=
+LFLAGS=-L$(SFML_LIBS)
 
 all: dirs setupRelease $(OBJS) $(PROJECT_NAME)
 debug: dirs setupDebug $(OBJS) $(PROJECT_NAME)
