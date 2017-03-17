@@ -26,10 +26,10 @@ public:
      */
     void update(sf::Time dt);
 private:
-    std::map<ChatCategory, std::vector<SharedEntity>> categoryMap;
-    std::vector<SharedEntity> chatCategoryEntities;
+    std::map<ChatCategory, std::vector<SharedTextEntity>> categoryMap;
+    std::vector<SharedTextEntity> chatCategoryEntities;
 
-    std::vector<SharedEntity>& getOrCreateChatOptionList(ChatCategory);
+    std::vector<SharedTextEntity>& getOrCreateChatOptionList(ChatCategory);
 };
 
 

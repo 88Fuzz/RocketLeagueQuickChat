@@ -2,8 +2,11 @@
 #define TEXT_ENTITY_HPP
 
 #include "Entity.hpp"
+#include "Timer.hpp"
+
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <string>
 
 /*
@@ -14,10 +17,21 @@ class TextEntity : public Entity
 public:
     TextEntity(sf::Font&, sf::Color, std::string);
     virtual ~TextEntity();
+
+    /*
+     * Draws the text on the screen.
+     */
     virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
+    /*
+     * Updates the Text information every tick.
+     */
     virtual void update(sf::Time);
 
+    /*
+     * Linearly move the text to position Vector2f on the screen over the time specified.
+     */
+    void setTargetPosition(sf::Vector2f, sf::Time);
     void setColor(sf::Color);
     void setString(std::string);
 protected:
@@ -32,6 +46,10 @@ protected:
     virtual void localUpdate(sf::Time) = 0;
 private:
     sf::Text text;
+    sf::Vector2f targetPosition;
+    Timer targetPositionTimer;
 };
+
+typedef std::shared_ptr<TextEntity> SharedTextEntity;
 
 #endif

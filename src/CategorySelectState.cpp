@@ -1,6 +1,7 @@
 #include "CategorySelectState.hpp"
 #include "ChatOptionHelper.hpp"
 
+#include <SFML/System/Vector2.hpp>
 #include <iostream>
 #include <set>
 
@@ -14,13 +15,15 @@ CategorySelectState::CategorySelectState(Context& context,std::vector<ChatOption
 
         if(categorySet.count(category) == 0)
         {
-            SharedEntity categoryEntity(new ChatCategoryEntity(context.getFont(), category));
-            categoryEntity.get()->move(10,60*i++);
+            int y = 60 * ++i;
+            SharedTextEntity categoryEntity(new ChatCategoryEntity(context.getFont(), category));
+            categoryEntity.get()->move(10,y);
+            categoryEntity.get()->setTargetPosition(sf::Vector2f(1000, y), sf::seconds(i));
             chatCategoryEntities.push_back(categoryEntity);
             categorySet.insert(category);
         }
 
-        SharedEntity optionEntity(new ChatOptionEntity(context.getFont(), chatOption));
+        SharedTextEntity optionEntity(new ChatOptionEntity(context.getFont(), chatOption));
         auto chatOptionList = getOrCreateChatOptionList(category);
         chatOptionList.push_back(optionEntity);
     }
@@ -30,12 +33,12 @@ CategorySelectState::~CategorySelectState()
 {
 }
 
-std::vector<SharedEntity>& CategorySelectState::getOrCreateChatOptionList(ChatCategory category)
+std::vector<SharedTextEntity>& CategorySelectState::getOrCreateChatOptionList(ChatCategory category)
 {
         auto optionListItr = categoryMap.find(category);
         if(optionListItr == categoryMap.end())
         {
-            auto optionList = std::vector<SharedEntity>();
+            auto optionList = std::vector<SharedTextEntity>();
             categoryMap[category] = optionList;
         }
 
