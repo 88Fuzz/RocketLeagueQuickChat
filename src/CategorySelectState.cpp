@@ -2,17 +2,23 @@
 #include "ChatOptionHelper.hpp"
 
 #include <iostream>
+#include <set>
 
 CategorySelectState::CategorySelectState(Context& context,std::vector<ChatOption> chatOptions): State(context)
 {
     int i = 0;
+    std::set<ChatCategory> categorySet;
     for(auto chatOption: chatOptions)
     {
         ChatCategory category = chatOption.getCategory();
 
-        SharedEntity categoryEntity(new ChatCategoryEntity(context.getFont(), category));
-        categoryEntity.get()->move(10,60*i++);
-        chatCategoryEntities.push_back(categoryEntity);
+        if(categorySet.count(category) == 0)
+        {
+            SharedEntity categoryEntity(new ChatCategoryEntity(context.getFont(), category));
+            categoryEntity.get()->move(10,60*i++);
+            chatCategoryEntities.push_back(categoryEntity);
+            categorySet.insert(category);
+        }
 
         SharedEntity optionEntity(new ChatOptionEntity(context.getFont(), chatOption));
         auto chatOptionList = getOrCreateChatOptionList(category);
