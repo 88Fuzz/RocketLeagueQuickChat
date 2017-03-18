@@ -1,17 +1,19 @@
 #include "Timer.hpp"
 
-Timer::Timer(sf::Time timeLimit): timeLimit(timeLimit)
+Timer::Timer(sf::Time timeLimit, bool active): timeLimit(timeLimit), active(active)
 {
 }
 
 bool Timer::timeExpired()
 {
-    return clock.getElapsedTime() > timeLimit;
+    return active && clock.getElapsedTime() > timeLimit;
 }
 
 float Timer::getPercentElapsed()
 {
+    if(!active)
+        return 0;
     sf::Time elapsedTime = clock.getElapsedTime();
 
-    return elapsedTime.asMilliseconds() / timeLimit.asMilliseconds();
+    return (float) elapsedTime.asMilliseconds() / (float) timeLimit.asMilliseconds();
 }

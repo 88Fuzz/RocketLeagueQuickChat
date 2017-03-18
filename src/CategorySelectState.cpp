@@ -18,7 +18,7 @@ CategorySelectState::CategorySelectState(Context& context,std::vector<ChatOption
             int y = 60 * ++i;
             SharedTextEntity categoryEntity(new ChatCategoryEntity(context.getFont(), category));
             categoryEntity.get()->move(10,y);
-            categoryEntity.get()->setTargetPosition(sf::Vector2f(1000, y), sf::seconds(i));
+            categoryEntity.get()->setTargetPosition(sf::Vector2f(500, 60), sf::seconds(i * 10));
             chatCategoryEntities.push_back(categoryEntity);
             categorySet.insert(category);
         }

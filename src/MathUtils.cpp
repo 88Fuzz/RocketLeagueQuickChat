@@ -10,8 +10,8 @@ float MathUtils::lerp(float a, float b, float placement)
 sf::Vector2f MathUtils::lerp(sf::Vector2f a, sf::Vector2f b, float placement)
 {
     placement = clamp(0, 1, placement);
-    return sf::Vector2f(lerp(a.x, a.y, placement),
-            lerp(b.x, b.y, placement));
+    return sf::Vector2f(lerp(a.x, b.x, placement),
+            lerp(a.y, b.y, placement));
 }
 
 float MathUtils::clamp(float min, float max, float value)

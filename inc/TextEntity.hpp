@@ -46,6 +46,7 @@ protected:
     virtual void localUpdate(sf::Time) = 0;
 private:
     sf::Text text;
+    sf::Vector2f targetStartPosition;
     sf::Vector2f targetPosition;
     Timer targetPositionTimer;
 };

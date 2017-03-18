@@ -10,7 +10,7 @@
 class Timer
 {
 public:
-    Timer(sf::Time);
+    Timer(sf::Time, bool);
     /*
      * Returns true if the time limit has expired.
      */
@@ -23,6 +23,7 @@ public:
 private:
     sf::Clock clock;
     sf::Time timeLimit;
+    bool active;
 };
 
 #endif
