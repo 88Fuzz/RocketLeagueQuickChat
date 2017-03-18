@@ -3,16 +3,23 @@
 #include "ChatOptionHelper.hpp"
 
 #include <SFML/Graphics.hpp>
+#include <sstream>
 #include <iostream>
 
-const sf::Time Application::TIME_PER_FRAME = sf::seconds(1.f / 60.f);
+const sf::Time Application::TIME_PER_FRAME = sf::seconds(1.f / 30.f);
 
 Application::Application(int width, int height, int windowStyle) :
                 window(sf::VideoMode(width, height), "RocketLeagueQuickChat", windowStyle),
-                context(buttonEventHandler, font), testing(0)
+                context(buttonEventHandler, font), statisticsText(),
+                statisticsUpdateTime(), statisticsNumberOfFrames(0),
+                testing(0)
 {
     window.setKeyRepeatEnabled(false);
     font.loadFromFile("fonts/Pacifico.ttf");
+
+    statisticsText.setFont(font);
+    statisticsText.setFillColor(sf::Color::Green);
+    statisticsText.setCharacterSize(15);
 
     currentState = new CategorySelectState(context, ChatOptionHelper::readVectorFromFile("ChatOptions.json"));
     buttonEventHandler.registerDownListener(ButtonEvent::UP, [this](ButtonEvent buttonEvent) 
@@ -47,6 +54,7 @@ void Application::run()
             update(TIME_PER_FRAME);
         }
 
+        updateStatistics(dt);
         render();
     }
 }
@@ -66,6 +74,22 @@ void Application::handleSFMLEvents()
     }
 }
 
+void Application::updateStatistics(sf::Time dt)
+{
+    statisticsUpdateTime += dt;
+    statisticsNumberOfFrames += 1;
+
+    if(statisticsUpdateTime >= sf::seconds(1.0f))
+    {
+        std::stringstream ss;
+        ss << "FPS: " << statisticsNumberOfFrames;
+        statisticsText.setString(ss.str());
+
+        statisticsUpdateTime -= sf::seconds(1.0f);
+        statisticsNumberOfFrames = 0;
+    }
+}
+
 void Application::update(sf::Time dt)
 {
     currentState->update(dt);
@@ -76,9 +100,7 @@ void Application::render()
     window.clear();
 
     window.draw(*currentState);
-    //sf::CircleShape shape(100.f);
-    //shape.setFillColor(sf::Color::Green);
-    //window.draw(shape);
+    window.draw(statisticsText);
 
     window.display();
 }

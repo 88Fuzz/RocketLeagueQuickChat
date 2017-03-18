@@ -7,6 +7,7 @@
 
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Text.hpp>
 
 /*
  * Main application that runs
@@ -25,10 +26,14 @@ private:
     EventHandler buttonEventHandler;
     Context context;
     State* currentState;
+    sf::Text statisticsText;
+    sf::Time statisticsUpdateTime;
+    int statisticsNumberOfFrames;
     int testing;
 
     void handleSFMLEvents();
     void handleButtonEvents(sf::Time);
+    void updateStatistics(sf::Time);
     void update(sf::Time);
     void render();
 };
