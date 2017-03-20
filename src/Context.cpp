@@ -1,7 +1,12 @@
 #include "Context.hpp"
 
-Context::Context(EventHandler& eventHandler,sf::Font& font): eventHandler(eventHandler), font(font)
+Context::Context(sf::RenderWindow& window, EventHandler& eventHandler,sf::Font& font): window(window), eventHandler(eventHandler), font(font)
 {
+}
+
+sf::RenderWindow& Context::getWindow() const
+{
+    return window;
 }
 
 EventHandler& Context::getEventHandler() const

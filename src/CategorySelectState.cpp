@@ -7,6 +7,7 @@
 
 CategorySelectState::CategorySelectState(Context& context,std::vector<ChatOption> chatOptions): State(context)
 {
+    sf::Vector2u windowSize = context.getWindow().getSize();
     int i = 0;
     std::set<ChatCategory> categorySet;
     for(auto chatOption: chatOptions)

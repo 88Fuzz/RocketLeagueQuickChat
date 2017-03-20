@@ -5,10 +5,13 @@
 #include <vector>
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 
 int main()
 {
-    Application application(800,600, sf::Style::Default);
+    sf::VideoMode videoMode = sf::VideoMode::getFullscreenModes()[0];
+    sf::RenderWindow window(videoMode, "RocketLeagueQuickChat", sf::Style::Titlebar);
+    Application application(window);
     application.run();
 
     return 0;

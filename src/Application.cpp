@@ -8,9 +8,9 @@
 
 const sf::Time Application::TIME_PER_FRAME = sf::seconds(1.f / 30.f);
 
-Application::Application(int width, int height, int windowStyle) :
-                window(sf::VideoMode(width, height), "RocketLeagueQuickChat", windowStyle),
-                context(buttonEventHandler, font), statisticsText(),
+Application::Application(sf::RenderWindow& window) :
+                window(window),
+                context(window, buttonEventHandler, font), statisticsText(),
                 statisticsUpdateTime(), statisticsNumberOfFrames(0),
                 testing(0)
 {

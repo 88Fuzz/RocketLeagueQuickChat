@@ -15,13 +15,13 @@
 class Application
 {
 public:
-    Application(int, int, int);
+    Application(sf::RenderWindow&);
     virtual ~Application();
     void run();
 
 private:
     static const sf::Time TIME_PER_FRAME;
-    sf::RenderWindow window;
+    sf::RenderWindow& window;
     sf::Font font;
     EventHandler buttonEventHandler;
     Context context;
