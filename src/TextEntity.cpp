@@ -2,6 +2,7 @@
 #include "MathUtils.hpp"
 
 TextEntity::TextEntity(sf::Font& font, sf::Color color, std::string str): 
+        previousTargetPositionTimerActive(false),
         targetPositionTimer(Timer(sf::seconds(0), false))
 {
     text.setFont(font);
@@ -18,6 +19,7 @@ void TextEntity::setTargetPosition(sf::Vector2f position, sf::Time time)
     targetStartPosition = getPosition();
     targetPosition = position;
     targetPositionTimer = Timer(time, true);
+    previousTargetPositionTimerActive = true;
 }
 
 void TextEntity::draw(sf::RenderTarget& renderTarget, sf::RenderStates renderStates) const
@@ -32,6 +34,11 @@ void TextEntity::update(sf::Time dt)
     {
         sf::Vector2f position = MathUtils::lerp(targetStartPosition, targetPosition, targetPositionTimer.getPercentElapsed());
         setPosition(position);
+    }
+    else if(previousTargetPositionTimerActive)
+    {
+        previousTargetPositionTimerActive = false;
+        setPosition(targetPosition);
     }
 
     text.setPosition(getPosition());
@@ -48,6 +55,7 @@ std::string TextEntity::getString()
 {
     return text.getString();
 }
+
 void TextEntity::setString(std::string str)
 {
     text.setString(str);

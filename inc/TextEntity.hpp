@@ -49,6 +49,7 @@ private:
     sf::Text text;
     sf::Vector2f targetStartPosition;
     sf::Vector2f targetPosition;
+    bool previousTargetPositionTimerActive;
     Timer targetPositionTimer;
 };
 
