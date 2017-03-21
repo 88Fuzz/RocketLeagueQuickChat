@@ -5,10 +5,13 @@
 #include "ChatCategory.hpp"
 #include "ChatCategoryEntity.hpp"
 #include "ChatOptionEntity.hpp"
+#include "VectorWrapper.hpp"
 #include "State.hpp"
 
+#include <SFML/System/Vector2.hpp>
 #include <vector>
 #include <map>
+#include <memory>
 
 class CategorySelectState : public State
 {
@@ -26,11 +29,18 @@ public:
      */
     void update(sf::Time dt);
 private:
+    static const int ITEMS_TO_DISPLAY;
+
     std::map<ChatCategory, std::vector<SharedTextEntity>> categoryMap;
-    std::vector<SharedTextEntity> chatCategoryEntities;
+    std::unique_ptr<VectorWrapper<SharedTextEntity>> chatCategoryEntities;
+    sf::Vector2u windowSize;
+    int selectedItem;
+    float verticalMidpoint;
+    float verticalOffset;
 
     std::vector<SharedTextEntity>& getOrCreateChatOptionList(ChatCategory);
+    void initOffsets();
+    void initPositions();
 };
-
 
 #endif

@@ -33,6 +33,7 @@ void TextEntity::update(sf::Time dt)
         sf::Vector2f position = MathUtils::lerp(targetStartPosition, targetPosition, targetPositionTimer.getPercentElapsed());
         setPosition(position);
     }
+
     text.setPosition(getPosition());
     localUpdate(dt);
 }
@@ -43,6 +44,10 @@ void TextEntity::setColor(sf::Color color)
     text.setOutlineColor(color);
 }
 
+std::string TextEntity::getString()
+{
+    return text.getString();
+}
 void TextEntity::setString(std::string str)
 {
     text.setString(str);

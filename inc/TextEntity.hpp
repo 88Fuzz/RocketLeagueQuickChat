@@ -34,6 +34,7 @@ public:
     void setTargetPosition(sf::Vector2f, sf::Time);
     void setColor(sf::Color);
     void setString(std::string);
+    std::string getString();
 protected:
     /*
      * Draw the current entity on the RenderTarget.

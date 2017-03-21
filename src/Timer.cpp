@@ -6,13 +6,18 @@ Timer::Timer(sf::Time timeLimit, bool active): timeLimit(timeLimit), active(acti
 
 bool Timer::timeExpired()
 {
-    return active && clock.getElapsedTime() > timeLimit;
+    if(!active)
+        return true;
+    else if(clock.getElapsedTime() > timeLimit)
+        active = false;
+
+    return !active;
 }
 
 float Timer::getPercentElapsed()
 {
     if(!active)
-        return 0;
+        return 100;
     sf::Time elapsedTime = clock.getElapsedTime();
 
     return (float) elapsedTime.asMilliseconds() / (float) timeLimit.asMilliseconds();
