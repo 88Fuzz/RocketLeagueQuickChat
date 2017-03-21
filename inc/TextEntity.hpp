@@ -5,6 +5,7 @@
 #include "Timer.hpp"
 #include "PositionModifier.hpp"
 #include "ColorModifier.hpp"
+#include "SizeModifier.hpp"
 
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -33,6 +34,10 @@ public:
     virtual void update(sf::Time);
 
     /*
+     * Linearly change the size of the font over the specified time.
+     */
+    void registerSizeModifier(int, sf::Time);
+    /*
      * Linearly change the color over the specified time.
      */
     void registerColorModifier(sf::Color, sf::Time);
@@ -40,6 +45,7 @@ public:
      * Linearly move the text to position Vector2f on the screen over the time specified.
      */
     void registerPositionModifer(sf::Vector2f, sf::Time);
+    void setSize(int);
     void setColor(sf::Color);
     void setString(std::string);
     std::string getString();
@@ -57,6 +63,7 @@ private:
     sf::Text text;
     std::unique_ptr<PositionModifier> positionModifier;
     std::unique_ptr<ColorModifier> colorModifier;
+    std::unique_ptr<SizeModifier> sizeModifier;
 };
 
 typedef std::shared_ptr<TextEntity> SharedTextEntity;

@@ -32,6 +32,8 @@ public:
     void update(sf::Time dt);
 private:
     static const int ITEMS_TO_DISPLAY;
+    static const int SELECT_SIZE;
+    static const int DESELECT_SIZE;
     static const sf::Color SELECT_COLOR;
     static const sf::Color DESELECT_COLOR;
     static const sf::Time TRANSITION_TIME;
