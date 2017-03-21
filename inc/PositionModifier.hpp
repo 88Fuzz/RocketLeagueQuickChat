@@ -2,7 +2,6 @@
 #define POSITION_MODIFIER_HPP
 
 #include "TextEntityModifier.hpp"
-#include "MathUtils.hpp"
 
 #include <SFML/System/Vector2.hpp>
 

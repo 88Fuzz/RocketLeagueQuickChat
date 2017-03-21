@@ -8,6 +8,7 @@
 #include "VectorWrapper.hpp"
 #include "State.hpp"
 
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <vector>
 #include <map>
@@ -31,18 +32,22 @@ public:
     void update(sf::Time dt);
 private:
     static const int ITEMS_TO_DISPLAY;
+    static const sf::Color SELECT_COLOR;
+    static const sf::Color DESELECT_COLOR;
+    static const sf::Time TRANSITION_TIME;
 
     std::map<ChatCategory, std::vector<SharedTextEntity>> categoryMap;
     std::unique_ptr<VectorWrapper<SharedTextEntity>> chatCategoryEntities;
     sf::Vector2u windowSize;
     int selectedItem;
+    int previousSelectedItem;
     float verticalStart;
     float verticalMidpoint;
     float verticalOffset;
 
     std::vector<SharedTextEntity>& getOrCreateChatOptionList(ChatCategory);
     void initOffsets();
-    void initPositions();
+    void initSelections();
     void updatePositions(std::function<void(SharedTextEntity&, float, float)>);
     void updateSelectedItem();
 };

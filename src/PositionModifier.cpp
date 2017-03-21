@@ -1,5 +1,6 @@
 #include "PositionModifier.hpp"
 #include "TextEntity.hpp"
+#include "MathUtils.hpp"
 
 PositionModifier::PositionModifier(TextEntity* textEntity, sf::Time time, sf::Vector2f startPosition, sf::Vector2f endPosition):
     TextEntityModifier(textEntity, time), startPosition(startPosition),

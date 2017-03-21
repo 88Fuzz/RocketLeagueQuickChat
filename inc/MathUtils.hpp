@@ -2,6 +2,7 @@
 #define MATH_UTILS_HPP
 
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/Color.hpp>
 
 class MathUtils
 {
@@ -19,6 +20,13 @@ public:
      * the return value is a.
      */
     static sf::Vector2f lerp(sf::Vector2f a, sf::Vector2f b, float placement);
+
+    /*
+     * Linearly interpolate between color a and b by placement amount.
+     * If placement is 1, the return value is b if placement is 0,
+     * the return value is a.
+     */
+    static sf::Color lerp(sf::Color a, sf::Color b, float placement);
 
     /*
      * returns min if value < min. Max if value is > max.

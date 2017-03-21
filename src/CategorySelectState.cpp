@@ -5,10 +5,13 @@
 #include <iostream>
 
 const int CategorySelectState::ITEMS_TO_DISPLAY = 5;
+const sf::Color CategorySelectState::SELECT_COLOR = sf::Color::Yellow;
+const sf::Color CategorySelectState::DESELECT_COLOR = sf::Color(200, 200, 200, 255);
+const sf::Time CategorySelectState::TRANSITION_TIME = sf::seconds(.7f);
 
 CategorySelectState::CategorySelectState(Context& context,std::vector<ChatOption> chatOptions):
         State(context), windowSize(context.getWindow().getSize()),
-        selectedItem(0)
+        selectedItem(0), previousSelectedItem(0)
 {
     std::vector<SharedTextEntity> categoryEntities;
     std::set<ChatCategory> categorySet;
@@ -30,12 +33,13 @@ CategorySelectState::CategorySelectState(Context& context,std::vector<ChatOption
 
     chatCategoryEntities = std::unique_ptr<VectorWrapper<SharedTextEntity>>(new VectorWrapper<SharedTextEntity>(categoryEntities));
     initOffsets();
-    initPositions();
+    initSelections();
 
 
     EventHandler& eventHandler = context.getEventHandler();
     eventHandler.registerDownListener(ButtonEvent::DOWN, [this](ButtonEvent buttonEvent)
     {
+        previousSelectedItem = selectedItem;
         selectedItem -=1;
         if(selectedItem < 0)
             selectedItem = chatCategoryEntities->size() - 1;
@@ -45,6 +49,7 @@ CategorySelectState::CategorySelectState(Context& context,std::vector<ChatOption
     });
     eventHandler.registerDownListener(ButtonEvent::UP, [this](ButtonEvent buttonEvent)
     {
+        previousSelectedItem = selectedItem;
         selectedItem +=1;
         if(selectedItem >= chatCategoryEntities->size())
             selectedItem = 0;
@@ -97,8 +102,14 @@ void CategorySelectState::initOffsets()
     verticalOffset = windowSize.y / ITEMS_TO_DISPLAY;
 }
 
-void CategorySelectState::initPositions()
+void CategorySelectState::initSelections()
 {
+    for(auto entity: chatCategoryEntities->getCollection())
+    {
+        entity->setColor(DESELECT_COLOR);
+    }
+    chatCategoryEntities->get(selectedItem)->setColor(SELECT_COLOR);
+
     updatePositions([](SharedTextEntity entity, float x, float y)
     {
         entity->setPosition(x, y);
@@ -107,9 +118,12 @@ void CategorySelectState::initPositions()
 
 void CategorySelectState::updateSelectedItem()
 {
+    chatCategoryEntities->get(selectedItem)->registerColorModifier(SELECT_COLOR, TRANSITION_TIME);
+    chatCategoryEntities->get(previousSelectedItem)->registerColorModifier(DESELECT_COLOR, TRANSITION_TIME);
+
     updatePositions([](SharedTextEntity entity, float x, float y)
     {
-        entity->registerPositionModifer(sf::Vector2f(x, y), sf::seconds(.7f));
+        entity->registerPositionModifer(sf::Vector2f(x, y), TRANSITION_TIME);
     });
 }
 

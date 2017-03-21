@@ -12,6 +12,11 @@ TextEntity::~TextEntity()
 {
 }
 
+void TextEntity::registerColorModifier(sf::Color color, sf::Time time)
+{
+    colorModifier = std::unique_ptr<ColorModifier>(new ColorModifier(this, time, text.getFillColor(), color));
+}
+
 void TextEntity::registerPositionModifer(sf::Vector2f position, sf::Time time)
 {
     positionModifier = std::unique_ptr<PositionModifier>(new PositionModifier(this, time, getPosition(), position));
@@ -29,6 +34,11 @@ void TextEntity::update(sf::Time dt)
     {
         if(positionModifier->modify())
             positionModifier = std::unique_ptr<PositionModifier>(nullptr);
+    }
+    if(colorModifier)
+    {
+        if(colorModifier->modify())
+            colorModifier = std::unique_ptr<ColorModifier>(nullptr);
     }
 
     text.setPosition(getPosition());
