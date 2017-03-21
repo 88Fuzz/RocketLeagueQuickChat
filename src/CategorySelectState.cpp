@@ -109,7 +109,7 @@ void CategorySelectState::updateSelectedItem()
 {
     updatePositions([](SharedTextEntity entity, float x, float y)
     {
-        entity.get()->setTargetPosition(sf::Vector2f(x, y), sf::seconds(.7f));
+        entity.get()->registerPositionModifer(sf::Vector2f(x, y), sf::seconds(.7f));
     });
 }
 

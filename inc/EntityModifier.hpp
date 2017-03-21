@@ -1,0 +1,4 @@
+#ifndef ENTITY_MODIFIER_HPP
+#define ENTITY_MODIFIER_HPP
+
+#endif

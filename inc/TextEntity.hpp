@@ -3,11 +3,13 @@
 
 #include "Entity.hpp"
 #include "Timer.hpp"
+#include "PositionModifier.hpp"
 
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <string>
+#include <memory>
 
 /*
  * Class used to draw text on screen.
@@ -31,7 +33,7 @@ public:
     /*
      * Linearly move the text to position Vector2f on the screen over the time specified.
      */
-    void setTargetPosition(sf::Vector2f, sf::Time);
+    void registerPositionModifer(sf::Vector2f, sf::Time);
     void setColor(sf::Color);
     void setString(std::string);
     std::string getString();
@@ -47,10 +49,7 @@ protected:
     virtual void localUpdate(sf::Time) = 0;
 private:
     sf::Text text;
-    sf::Vector2f targetStartPosition;
-    sf::Vector2f targetPosition;
-    bool previousTargetPositionTimerActive;
-    Timer targetPositionTimer;
+    std::unique_ptr<PositionModifier> positionModifier;
 };
 
 typedef std::shared_ptr<TextEntity> SharedTextEntity;

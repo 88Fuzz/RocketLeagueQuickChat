@@ -1,9 +1,7 @@
 #include "TextEntity.hpp"
 #include "MathUtils.hpp"
 
-TextEntity::TextEntity(sf::Font& font, sf::Color color, std::string str): 
-        previousTargetPositionTimerActive(false),
-        targetPositionTimer(Timer(sf::seconds(0), false))
+TextEntity::TextEntity(sf::Font& font, sf::Color color, std::string str)
 {
     text.setFont(font);
     setColor(color);
@@ -14,12 +12,9 @@ TextEntity::~TextEntity()
 {
 }
 
-void TextEntity::setTargetPosition(sf::Vector2f position, sf::Time time)
+void TextEntity::registerPositionModifer(sf::Vector2f position, sf::Time time)
 {
-    targetStartPosition = getPosition();
-    targetPosition = position;
-    targetPositionTimer = Timer(time, true);
-    previousTargetPositionTimerActive = true;
+    positionModifier = std::unique_ptr<PositionModifier>(new PositionModifier(this, time, getPosition(), position));
 }
 
 void TextEntity::draw(sf::RenderTarget& renderTarget, sf::RenderStates renderStates) const
@@ -30,15 +25,10 @@ void TextEntity::draw(sf::RenderTarget& renderTarget, sf::RenderStates renderSta
 
 void TextEntity::update(sf::Time dt)
 {
-    if(!targetPositionTimer.timeExpired())
+    if(positionModifier)
     {
-        sf::Vector2f position = MathUtils::lerp(targetStartPosition, targetPosition, targetPositionTimer.getPercentElapsed());
-        setPosition(position);
-    }
-    else if(previousTargetPositionTimerActive)
-    {
-        previousTargetPositionTimerActive = false;
-        setPosition(targetPosition);
+        if(positionModifier->modify())
+            positionModifier = std::unique_ptr<PositionModifier>(nullptr);
     }
 
     text.setPosition(getPosition());

@@ -1,24 +1,19 @@
 #include "Timer.hpp"
+#include "MathUtils.hpp"
 
-Timer::Timer(sf::Time timeLimit, bool active): timeLimit(timeLimit), active(active)
+Timer::Timer(sf::Time timeLimit): timeLimit(timeLimit)
 {
 }
 
 bool Timer::timeExpired()
 {
-    if(!active)
-        return true;
-    else if(clock.getElapsedTime() > timeLimit)
-        active = false;
-
-    return !active;
+    return clock.getElapsedTime() > timeLimit;
 }
 
 float Timer::getPercentElapsed()
 {
-    if(!active)
-        return 100;
     sf::Time elapsedTime = clock.getElapsedTime();
+    float percent = (float) elapsedTime.asMilliseconds() / (float) timeLimit.asMilliseconds();
 
-    return (float) elapsedTime.asMilliseconds() / (float) timeLimit.asMilliseconds();
+    return MathUtils::clamp(0, 100, percent);
 }
