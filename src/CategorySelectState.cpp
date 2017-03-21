@@ -111,6 +111,7 @@ void CategorySelectState::initSelections()
         entity->setColor(DESELECT_COLOR);
     }
     chatCategoryEntities->get(selectedItem)->setColor(SELECT_COLOR);
+    chatCategoryEntities->get(selectedItem)->setSize(SELECT_SIZE);
 
     updatePositions([](SharedTextEntity entity, float x, float y)
     {
