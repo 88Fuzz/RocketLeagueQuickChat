@@ -22,14 +22,6 @@ Application::Application(sf::RenderWindow& window) :
     statisticsText.setCharacterSize(15);
 
     currentState = new CategorySelectState(context, ChatOptionHelper::readVectorFromFile("ChatOptions.json"));
-    /*buttonEventHandler.registerDownListener(ButtonEvent::UP, [this](ButtonEvent buttonEvent) 
-    {
-        std::cout << buttonEvent << " Go fuck yourself! " << ++testing << "\n";
-    });
-    buttonEventHandler.registerUpListener(ButtonEvent::UP, [this](ButtonEvent buttonEvent) 
-    {
-        std::cout << buttonEvent << " Go unfuck yourself! " << --testing << "\n";
-    });*/
 }
 
 Application::~Application()

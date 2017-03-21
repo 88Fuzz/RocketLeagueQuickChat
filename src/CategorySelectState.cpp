@@ -92,6 +92,7 @@ void CategorySelectState::update(sf::Time dt)
 
 void CategorySelectState::initOffsets()
 {
+    verticalStart = 40;
     verticalMidpoint = windowSize.y / 2;
     verticalOffset = windowSize.y / ITEMS_TO_DISPLAY;
 }
@@ -108,15 +109,23 @@ void CategorySelectState::updateSelectedItem()
 {
     updatePositions([](SharedTextEntity entity, float x, float y)
     {
-        entity.get()->setTargetPosition(sf::Vector2f(x, y), sf::seconds(1));
+        entity.get()->setTargetPosition(sf::Vector2f(x, y), sf::seconds(.7f));
     });
 }
 
 void CategorySelectState::updatePositions(std::function<void(SharedTextEntity&, float, float)> processor)
 {
-    int x = 60;
+    float x = verticalStart;
     SharedTextEntity entity = chatCategoryEntities.get()->get(selectedItem);
-    processor(entity, x, verticalMidpoint);
+    processor(entity, x, verticalStart);
+
+    for(int i = 1; i < ITEMS_TO_DISPLAY; i++)
+    {
+        entity = chatCategoryEntities.get()->get(selectedItem + i);
+        processor(entity, x, verticalStart + verticalOffset * i);
+    }
+
+    /*processor(entity, x, verticalMidpoint);
 
     for(int i = 1; i <= ITEMS_TO_DISPLAY/2; i++)
     {
@@ -128,5 +137,5 @@ void CategorySelectState::updatePositions(std::function<void(SharedTextEntity&, 
     {
         entity = chatCategoryEntities.get()->get(selectedItem - i);
         processor(entity, x, verticalMidpoint - verticalOffset * i);
-    }
+    }*/
 }

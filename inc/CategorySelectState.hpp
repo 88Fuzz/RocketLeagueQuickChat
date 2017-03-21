@@ -36,6 +36,7 @@ private:
     std::unique_ptr<VectorWrapper<SharedTextEntity>> chatCategoryEntities;
     sf::Vector2u windowSize;
     int selectedItem;
+    float verticalStart;
     float verticalMidpoint;
     float verticalOffset;
 
