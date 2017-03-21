@@ -2,6 +2,7 @@
 #include "ChatOptionHelper.hpp"
 
 #include <set>
+#include <iostream>
 
 const int CategorySelectState::ITEMS_TO_DISPLAY = 5;
 
@@ -30,6 +31,31 @@ CategorySelectState::CategorySelectState(Context& context,std::vector<ChatOption
     chatCategoryEntities = std::unique_ptr<VectorWrapper<SharedTextEntity>>(new VectorWrapper<SharedTextEntity>(categoryEntities));
     initOffsets();
     initPositions();
+
+
+    EventHandler& eventHandler = context.getEventHandler();
+    eventHandler.registerDownListener(ButtonEvent::DOWN, [this](ButtonEvent buttonEvent)
+    {
+        selectedItem -=1;
+        if(selectedItem < 0)
+            selectedItem = chatCategoryEntities.get()->size() - 1;
+
+        std::cout << "UP max size " << chatCategoryEntities.get()->size() << " selection " << selectedItem << "\n";
+        updateSelectedItem();
+    });
+    eventHandler.registerDownListener(ButtonEvent::UP, [this](ButtonEvent buttonEvent)
+    {
+        selectedItem +=1;
+        if(selectedItem >= chatCategoryEntities.get()->size())
+            selectedItem = 0;
+
+        std::cout << "DOWN max size " << chatCategoryEntities.get()->size() << " selection " << selectedItem << "\n";
+        updateSelectedItem();
+    });
+    eventHandler.registerUpListener(ButtonEvent::SELECT, [this](ButtonEvent buttonEvent)
+    {
+        std::cout << "Selected item is " << chatCategoryEntities.get()->get(selectedItem).get()->getString() << "\n";
+    });
 }
 
 CategorySelectState::~CategorySelectState()
@@ -72,20 +98,35 @@ void CategorySelectState::initOffsets()
 
 void CategorySelectState::initPositions()
 {
+    updatePositions([](SharedTextEntity entity, float x, float y)
+    {
+        entity.get()->setPosition(x, y);
+    });
+}
+
+void CategorySelectState::updateSelectedItem()
+{
+    updatePositions([](SharedTextEntity entity, float x, float y)
+    {
+        entity.get()->setTargetPosition(sf::Vector2f(x, y), sf::seconds(1));
+    });
+}
+
+void CategorySelectState::updatePositions(std::function<void(SharedTextEntity&, float, float)> processor)
+{
     int x = 60;
     SharedTextEntity entity = chatCategoryEntities.get()->get(selectedItem);
-    entity.get()->setPosition(x, verticalMidpoint);
+    processor(entity, x, verticalMidpoint);
 
     for(int i = 1; i <= ITEMS_TO_DISPLAY/2; i++)
     {
         entity = chatCategoryEntities.get()->get(selectedItem + i);
-        entity.get()->setPosition(x, verticalMidpoint + verticalOffset * i);
+        processor(entity, x, verticalMidpoint + verticalOffset * i);
     }
 
     for(int i = 1; i <= ITEMS_TO_DISPLAY/2; i++)
     {
         entity = chatCategoryEntities.get()->get(selectedItem - i);
-        entity.get()->setPosition(x, verticalMidpoint - verticalOffset * i);
+        processor(entity, x, verticalMidpoint - verticalOffset * i);
     }
 }
-

@@ -12,6 +12,7 @@
 #include <vector>
 #include <map>
 #include <memory>
+#include <functional>
 
 class CategorySelectState : public State
 {
@@ -41,6 +42,8 @@ private:
     std::vector<SharedTextEntity>& getOrCreateChatOptionList(ChatCategory);
     void initOffsets();
     void initPositions();
+    void updatePositions(std::function<void(SharedTextEntity&, float, float)>);
+    void updateSelectedItem();
 };
 
 #endif

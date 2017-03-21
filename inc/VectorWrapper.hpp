@@ -25,9 +25,9 @@ public:
             while(index < 0)
                 index += collection.size();
         }
-        else if (index > collection.size())
+        else if (index >= collection.size())
         {
-            while(index > collection.size())
+            while(index >= collection.size())
                 index -= collection.size();
         }
     
