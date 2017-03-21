@@ -38,23 +38,23 @@ CategorySelectState::CategorySelectState(Context& context,std::vector<ChatOption
     {
         selectedItem -=1;
         if(selectedItem < 0)
-            selectedItem = chatCategoryEntities.get()->size() - 1;
+            selectedItem = chatCategoryEntities->size() - 1;
 
-        std::cout << "UP max size " << chatCategoryEntities.get()->size() << " selection " << selectedItem << "\n";
+        std::cout << "UP max size " << chatCategoryEntities->size() << " selection " << selectedItem << "\n";
         updateSelectedItem();
     });
     eventHandler.registerDownListener(ButtonEvent::UP, [this](ButtonEvent buttonEvent)
     {
         selectedItem +=1;
-        if(selectedItem >= chatCategoryEntities.get()->size())
+        if(selectedItem >= chatCategoryEntities->size())
             selectedItem = 0;
 
-        std::cout << "DOWN max size " << chatCategoryEntities.get()->size() << " selection " << selectedItem << "\n";
+        std::cout << "DOWN max size " << chatCategoryEntities->size() << " selection " << selectedItem << "\n";
         updateSelectedItem();
     });
     eventHandler.registerUpListener(ButtonEvent::SELECT, [this](ButtonEvent buttonEvent)
     {
-        std::cout << "Selected item is " << chatCategoryEntities.get()->get(selectedItem).get()->getString() << "\n";
+        std::cout << "Selected item is " << chatCategoryEntities->get(selectedItem)->getString() << "\n";
     });
 }
 
@@ -76,17 +76,17 @@ std::vector<SharedTextEntity>& CategorySelectState::getOrCreateChatOptionList(Ch
 
 void CategorySelectState::draw(sf::RenderTarget& renderTarget,sf::RenderStates renderStates) const
 {
-    for(auto entity: chatCategoryEntities.get()->getCollection())
+    for(auto entity: chatCategoryEntities->getCollection())
     {
-        entity.get()->draw(renderTarget, renderStates);
+        entity->draw(renderTarget, renderStates);
     }
 }
 
 void CategorySelectState::update(sf::Time dt)
 {
-    for(auto entity: chatCategoryEntities.get()->getCollection())
+    for(auto entity: chatCategoryEntities->getCollection())
     {
-        entity.get()->update(dt);
+        entity->update(dt);
     }
 }
 
@@ -101,7 +101,7 @@ void CategorySelectState::initPositions()
 {
     updatePositions([](SharedTextEntity entity, float x, float y)
     {
-        entity.get()->setPosition(x, y);
+        entity->setPosition(x, y);
     });
 }
 
@@ -109,19 +109,19 @@ void CategorySelectState::updateSelectedItem()
 {
     updatePositions([](SharedTextEntity entity, float x, float y)
     {
-        entity.get()->registerPositionModifer(sf::Vector2f(x, y), sf::seconds(.7f));
+        entity->registerPositionModifer(sf::Vector2f(x, y), sf::seconds(.7f));
     });
 }
 
 void CategorySelectState::updatePositions(std::function<void(SharedTextEntity&, float, float)> processor)
 {
     float x = verticalStart;
-    SharedTextEntity entity = chatCategoryEntities.get()->get(selectedItem);
+    SharedTextEntity entity = chatCategoryEntities->get(selectedItem);
     processor(entity, x, verticalStart);
 
     for(int i = 1; i < ITEMS_TO_DISPLAY; i++)
     {
-        entity = chatCategoryEntities.get()->get(selectedItem + i);
+        entity = chatCategoryEntities->get(selectedItem + i);
         processor(entity, x, verticalStart + verticalOffset * i);
     }
 
@@ -129,13 +129,13 @@ void CategorySelectState::updatePositions(std::function<void(SharedTextEntity&, 
 
     for(int i = 1; i <= ITEMS_TO_DISPLAY/2; i++)
     {
-        entity = chatCategoryEntities.get()->get(selectedItem + i);
+        entity = chatCategoryEntities->get(selectedItem + i);
         processor(entity, x, verticalMidpoint + verticalOffset * i);
     }
 
     for(int i = 1; i <= ITEMS_TO_DISPLAY/2; i++)
     {
-        entity = chatCategoryEntities.get()->get(selectedItem - i);
+        entity = chatCategoryEntities->get(selectedItem - i);
         processor(entity, x, verticalMidpoint - verticalOffset * i);
     }*/
 }
