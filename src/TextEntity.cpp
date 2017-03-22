@@ -14,17 +14,17 @@ TextEntity::~TextEntity()
 
 void TextEntity::registerSizeModifier(int size, sf::Time time)
 {
-    sizeModifier = std::unique_ptr<SizeModifier>(new SizeModifier(this, time, text.getCharacterSize(), size));
+    modifiers.push_back(std::unique_ptr<SizeModifier>(new SizeModifier(this, time, text.getCharacterSize(), size)));
 }
 
 void TextEntity::registerColorModifier(sf::Color color, sf::Time time)
 {
-    colorModifier = std::unique_ptr<ColorModifier>(new ColorModifier(this, time, text.getFillColor(), color));
+    modifiers.push_back(std::unique_ptr<ColorModifier>(new ColorModifier(this, time, text.getFillColor(), color)));
 }
 
 void TextEntity::registerPositionModifer(sf::Vector2f position, sf::Time time)
 {
-    positionModifier = std::unique_ptr<PositionModifier>(new PositionModifier(this, time, getPosition(), position));
+    modifiers.push_back(std::unique_ptr<PositionModifier>(new PositionModifier(this, time, getPosition(), position)));
 }
 
 void TextEntity::draw(sf::RenderTarget& renderTarget, sf::RenderStates renderStates) const
@@ -35,20 +35,13 @@ void TextEntity::draw(sf::RenderTarget& renderTarget, sf::RenderStates renderSta
 
 void TextEntity::update(sf::Time dt)
 {
-    if(positionModifier)
+    std::vector<std::unique_ptr<TextEntityModifier>>::iterator itr = modifiers.begin();
+    while(itr != modifiers.end())
     {
-        if(positionModifier->modify())
-            positionModifier = std::unique_ptr<PositionModifier>(nullptr);
-    }
-    if(colorModifier)
-    {
-        if(colorModifier->modify())
-            colorModifier = std::unique_ptr<ColorModifier>(nullptr);
-    }
-    if(sizeModifier)
-    {
-        if(sizeModifier->modify())
-            sizeModifier = std::unique_ptr<SizeModifier>(nullptr);
+        if(!(*itr) || (*itr)->modify())
+            itr = modifiers.erase(itr);
+        else
+            ++itr;
     }
 
     text.setPosition(getPosition());

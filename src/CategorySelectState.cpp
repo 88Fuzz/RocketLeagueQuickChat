@@ -142,18 +142,4 @@ void CategorySelectState::updatePositions(std::function<void(SharedTextEntity&, 
         entity = chatCategoryEntities->get(selectedItem + i);
         processor(entity, x, verticalStart + verticalOffset * i);
     }
-
-    /*processor(entity, x, verticalMidpoint);
-
-    for(int i = 1; i <= ITEMS_TO_DISPLAY/2; i++)
-    {
-        entity = chatCategoryEntities->get(selectedItem + i);
-        processor(entity, x, verticalMidpoint + verticalOffset * i);
-    }
-
-    for(int i = 1; i <= ITEMS_TO_DISPLAY/2; i++)
-    {
-        entity = chatCategoryEntities->get(selectedItem - i);
-        processor(entity, x, verticalMidpoint - verticalOffset * i);
-    }*/
 }

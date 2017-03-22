@@ -13,6 +13,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <string>
 #include <memory>
+#include <vector>
 
 /*
  * Class used to draw text on screen.
@@ -61,9 +62,7 @@ protected:
     virtual void localUpdate(sf::Time) = 0;
 private:
     sf::Text text;
-    std::unique_ptr<PositionModifier> positionModifier;
-    std::unique_ptr<ColorModifier> colorModifier;
-    std::unique_ptr<SizeModifier> sizeModifier;
+    std::vector<std::unique_ptr<TextEntityModifier>> modifiers;
 };
 
 typedef std::shared_ptr<TextEntity> SharedTextEntity;
