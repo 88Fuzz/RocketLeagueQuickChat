@@ -5,10 +5,8 @@
 #include <iostream>
 
 const int CategorySelectState::ITEMS_TO_DISPLAY = 5;
-const int CategorySelectState::SELECT_SIZE = 55;
-const int CategorySelectState::DESELECT_SIZE = 30;
-const sf::Color CategorySelectState::SELECT_COLOR = sf::Color::Yellow;
-const sf::Color CategorySelectState::DESELECT_COLOR = sf::Color(200, 200, 200, 255);
+const SelectionHolder<int> CategorySelectState::SIZE_SELECT(55, 33);
+const SelectionHolder<sf::Color> CategorySelectState::COLOR_SELECT(sf::Color::Yellow, sf::Color(200,200,200));
 const sf::Time CategorySelectState::TRANSITION_TIME = sf::seconds(.7f);
 
 CategorySelectState::CategorySelectState(Context& context,std::vector<ChatOption> chatOptions):
@@ -108,10 +106,10 @@ void CategorySelectState::initSelections()
 {
     for(auto entity: chatCategoryEntities->getCollection())
     {
-        entity->setColor(DESELECT_COLOR);
+        entity->setColor(COLOR_SELECT.deselected);
     }
-    chatCategoryEntities->get(selectedItem)->setColor(SELECT_COLOR);
-    chatCategoryEntities->get(selectedItem)->setSize(SELECT_SIZE);
+    chatCategoryEntities->get(selectedItem)->setColor(COLOR_SELECT.selected);
+    chatCategoryEntities->get(selectedItem)->setSize(SIZE_SELECT.selected);
 
     updatePositions([](SharedTextEntity entity, float x, float y)
     {
@@ -121,11 +119,11 @@ void CategorySelectState::initSelections()
 
 void CategorySelectState::updateSelectedItem()
 {
-    chatCategoryEntities->get(selectedItem)->registerColorModifier(SELECT_COLOR, TRANSITION_TIME);
-    chatCategoryEntities->get(previousSelectedItem)->registerColorModifier(DESELECT_COLOR, TRANSITION_TIME);
+    chatCategoryEntities->get(selectedItem)->registerColorModifier(COLOR_SELECT.selected, TRANSITION_TIME);
+    chatCategoryEntities->get(previousSelectedItem)->registerColorModifier(COLOR_SELECT.deselected, TRANSITION_TIME);
 
-    chatCategoryEntities->get(selectedItem)->registerSizeModifier(SELECT_SIZE, TRANSITION_TIME);
-    chatCategoryEntities->get(previousSelectedItem)->registerSizeModifier(DESELECT_SIZE, TRANSITION_TIME);
+    chatCategoryEntities->get(selectedItem)->registerSizeModifier(SIZE_SELECT.selected, TRANSITION_TIME);
+    chatCategoryEntities->get(previousSelectedItem)->registerSizeModifier(SIZE_SELECT.deselected, TRANSITION_TIME);
 
     updatePositions([](SharedTextEntity entity, float x, float y)
     {

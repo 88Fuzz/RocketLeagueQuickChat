@@ -5,6 +5,7 @@
 #include "ChatCategory.hpp"
 #include "ChatCategoryEntity.hpp"
 #include "ChatOptionEntity.hpp"
+#include "SelectionHolder.hpp"
 #include "VectorWrapper.hpp"
 #include "State.hpp"
 
@@ -32,9 +33,8 @@ public:
     void update(sf::Time dt);
 private:
     static const int ITEMS_TO_DISPLAY;
-    static const int SELECT_SIZE;
-    static const int DESELECT_SIZE;
-    static const sf::Color SELECT_COLOR;
+    static const SelectionHolder<int> SIZE_SELECT;
+    static const SelectionHolder<sf::Color> COLOR_SELECT;
     static const sf::Color DESELECT_COLOR;
     static const sf::Time TRANSITION_TIME;
 
