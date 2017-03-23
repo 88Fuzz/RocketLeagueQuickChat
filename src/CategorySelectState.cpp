@@ -9,9 +9,20 @@ const SelectionHolder<int> CategorySelectState::SIZE_SELECT(55, 33);
 const SelectionHolder<sf::Color> CategorySelectState::COLOR_SELECT(sf::Color::Yellow, sf::Color(200,200,200));
 const sf::Time CategorySelectState::TRANSITION_TIME = sf::seconds(.7f);
 
-CategorySelectState::CategorySelectState(Context& context,std::vector<ChatOption> chatOptions):
-        State(context), windowSize(context.getWindow().getSize()),
+CategorySelectState::CategorySelectState(StateManager* stateManager, Context& context):
+        State(stateManager, context),
+        windowSize(context.getWindow().getSize()),
         selectedItem(0), previousSelectedItem(0)
+{
+}
+
+void CategorySelectState::init()
+{
+    initOffsets();
+    initSelections();
+}
+
+void CategorySelectState::registerChatOptions(std::vector<ChatOption> chatOptions)
 {
     std::vector<SharedTextEntity> categoryEntities;
     std::set<ChatCategory> categorySet;
@@ -32,9 +43,6 @@ CategorySelectState::CategorySelectState(Context& context,std::vector<ChatOption
     }
 
     chatCategoryEntities = std::unique_ptr<VectorWrapper<SharedTextEntity>>(new VectorWrapper<SharedTextEntity>(categoryEntities));
-    initOffsets();
-    initSelections();
-
 
     EventHandler& eventHandler = context.getEventHandler();
     eventHandler.registerDownListener(ButtonEvent::DOWN, [this](ButtonEvent buttonEvent)

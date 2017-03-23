@@ -8,6 +8,7 @@
 #include "SelectionHolder.hpp"
 #include "VectorWrapper.hpp"
 #include "State.hpp"
+#include "StateManager.hpp"
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -19,7 +20,7 @@
 class CategorySelectState : public State
 {
 public:
-    CategorySelectState(Context&, std::vector<ChatOption>);
+    CategorySelectState(StateManager*, Context&);
     ~CategorySelectState();
 
     /*
@@ -31,6 +32,9 @@ public:
      * Called once every tick to update the entity, with the time since the last update call.
      */
     void update(sf::Time dt);
+
+    void registerChatOptions(std::vector<ChatOption>);
+    void init();
 private:
     static const int ITEMS_TO_DISPLAY;
     static const SelectionHolder<int> SIZE_SELECT;

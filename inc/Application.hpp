@@ -8,6 +8,7 @@
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <memory>
 
 /*
  * Main application that runs
@@ -25,7 +26,8 @@ private:
     sf::Font font;
     EventHandler buttonEventHandler;
     Context context;
-    State* currentState;
+    StateManager stateManager;
+    std::shared_ptr<State> currentState;
     sf::Text statisticsText;
     sf::Time statisticsUpdateTime;
     int statisticsNumberOfFrames;

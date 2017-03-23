@@ -1,6 +1,7 @@
 #include "Application.hpp"
 #include "CategorySelectState.hpp"
 #include "ChatOptionHelper.hpp"
+#include "StateId.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <sstream>
@@ -10,7 +11,9 @@ const sf::Time Application::TIME_PER_FRAME = sf::seconds(1.f / 30.f);
 
 Application::Application(sf::RenderWindow& window) :
                 window(window),
-                context(window, buttonEventHandler, font), statisticsText(),
+                context(window, buttonEventHandler, font),
+                stateManager(context),
+                statisticsText(),
                 statisticsUpdateTime(), statisticsNumberOfFrames(0),
                 testing(0)
 {
@@ -21,18 +24,22 @@ Application::Application(sf::RenderWindow& window) :
     statisticsText.setFillColor(sf::Color::Green);
     statisticsText.setCharacterSize(15);
 
-    currentState = new CategorySelectState(context, ChatOptionHelper::readVectorFromFile("ChatOptions.json"));
+    stateManager.registerPendingState(StateId::CATEGORY_SELECT, [](State* state)
+    {
+        CategorySelectState* selectState = dynamic_cast<CategorySelectState*>(state);
+        selectState->registerChatOptions(ChatOptionHelper::readVectorFromFile("ChatOptions.json"));
+    });
 }
 
 Application::~Application()
 {
-    delete currentState;
 }
 
 void Application::run()
 {
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
+    currentState = stateManager.getPendingState();
 
     while(window.isOpen())
     {
@@ -40,6 +47,9 @@ void Application::run()
         timeSinceLastUpdate += dt;
         while(timeSinceLastUpdate > TIME_PER_FRAME)
         {
+            if(stateManager.hasPendingState())
+                currentState = stateManager.getPendingState();
+
             timeSinceLastUpdate -= TIME_PER_FRAME;
             handleButtonEvents(TIME_PER_FRAME);
             handleSFMLEvents();
