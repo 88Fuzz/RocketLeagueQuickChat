@@ -5,13 +5,11 @@
 #include "ChatCategory.hpp"
 #include "ChatCategoryEntity.hpp"
 #include "ChatOptionEntity.hpp"
-#include "SelectionHolder.hpp"
 #include "VectorWrapper.hpp"
 #include "State.hpp"
 #include "StateManager.hpp"
 
 #include <SFML/Graphics/Color.hpp>
-#include <SFML/System/Vector2.hpp>
 #include <vector>
 #include <map>
 #include <memory>
@@ -36,19 +34,10 @@ public:
     void registerChatOptions(std::vector<ChatOption>);
     void init();
 private:
-    static const int ITEMS_TO_DISPLAY;
-    static const SelectionHolder<int> SIZE_SELECT;
-    static const SelectionHolder<sf::Color> COLOR_SELECT;
-    static const sf::Color DESELECT_COLOR;
-    static const sf::Time TRANSITION_TIME;
-
     std::map<ChatCategory, std::vector<SharedTextEntity>> categoryMap;
     std::unique_ptr<VectorWrapper<SharedChatCategoryEntity>> chatCategoryEntities;
-    sf::Vector2u windowSize;
     int selectedItem;
     int previousSelectedItem;
-    float verticalStart;
-    float verticalMidpoint;
     float verticalOffset;
 
     std::vector<SharedTextEntity>& getOrCreateChatOptionList(ChatCategory);
