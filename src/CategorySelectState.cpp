@@ -114,11 +114,12 @@ void CategorySelectState::initSelections()
 {
     for(auto entity: chatCategoryEntities->getCollection())
     {
-        entity->setColor(SelectionConstants::COLOR_SELECT.deselected);
+        entity->setColor(SelectionConstants::COLOR.deselected);
+        entity->setSize(SelectionConstants::SIZE.deselected);
     }
-    chatCategoryEntities->get(selectedItem)->setColor(SelectionConstants::COLOR_SELECT.selected);
-    chatCategoryEntities->get(selectedItem)->setSize(SelectionConstants::SIZE_SELECT.selected);
 
+    chatCategoryEntities->get(selectedItem)->setColor(SelectionConstants::COLOR.selected);
+    chatCategoryEntities->get(selectedItem)->setSize(SelectionConstants::SIZE.selected);
     updatePositions([](SharedTextEntity entity, float x, float y)
     {
         entity->setPosition(x, y);
@@ -128,14 +129,14 @@ void CategorySelectState::initSelections()
 void CategorySelectState::updateSelectedItem()
 {
     chatCategoryEntities->get(selectedItem)->registerColorModifier(
-            SelectionConstants::COLOR_SELECT.selected, SelectionConstants::SELECTION_TRANSITION_TIME);
+            SelectionConstants::COLOR.selected, SelectionConstants::SELECTION_TRANSITION_TIME);
     chatCategoryEntities->get(previousSelectedItem)->registerColorModifier(
-            SelectionConstants::COLOR_SELECT.deselected, SelectionConstants::SELECTION_TRANSITION_TIME);
+            SelectionConstants::COLOR.deselected, SelectionConstants::SELECTION_TRANSITION_TIME);
 
     chatCategoryEntities->get(selectedItem)->registerSizeModifier(
-            SelectionConstants::SIZE_SELECT.selected, SelectionConstants::SELECTION_TRANSITION_TIME);
+            SelectionConstants::SIZE.selected, SelectionConstants::SELECTION_TRANSITION_TIME);
     chatCategoryEntities->get(previousSelectedItem)->registerSizeModifier(
-            SelectionConstants::SIZE_SELECT.deselected, SelectionConstants::SELECTION_TRANSITION_TIME);
+            SelectionConstants::SIZE.deselected, SelectionConstants::SELECTION_TRANSITION_TIME);
 
     updatePositions([](SharedTextEntity entity, float x, float y)
     {

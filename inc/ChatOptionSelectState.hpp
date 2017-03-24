@@ -3,6 +3,9 @@
 
 #include "State.hpp"
 #include "TextEntity.hpp"
+#include "VectorWrapper.hpp"
+
+#include <memory>
 
 class ChatOptionSelectState : public State
 {
@@ -15,7 +18,15 @@ public:
     void init();
     void registerChatOptions(std::vector<SharedTextEntity>*);
 private:
-    std::vector<SharedTextEntity> displayList;
+    std::unique_ptr<VectorWrapper<SharedTextEntity>> chatOptions;
+    int selectedItem;
+    int previousSelectedItem;
+    float verticalOffset;
+
+    void initOffsets();
+    void initSelections();
+    void updatePositions(std::function<void(SharedTextEntity&, float, float)>);
+    void updateSelectedItem();
 };
 
 #endif

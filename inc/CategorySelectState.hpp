@@ -31,8 +31,8 @@ public:
      */
     void update(sf::Time dt);
 
-    void registerChatOptions(std::vector<ChatOption>);
     void init();
+    void registerChatOptions(std::vector<ChatOption>);
 private:
     std::map<ChatCategory, std::vector<SharedTextEntity>> categoryMap;
     std::unique_ptr<VectorWrapper<SharedChatCategoryEntity>> chatCategoryEntities;
