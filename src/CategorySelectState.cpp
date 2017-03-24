@@ -1,5 +1,5 @@
 #include "CategorySelectState.hpp"
-#include "ChatOptionHelper.hpp"
+#include "ChatOptionSelectState.hpp"
 
 #include <set>
 #include <iostream>
@@ -16,6 +16,10 @@ CategorySelectState::CategorySelectState(StateManager* stateManager, Context& co
 {
 }
 
+CategorySelectState::~CategorySelectState()
+{
+}
+
 void CategorySelectState::init()
 {
     initOffsets();
@@ -24,7 +28,7 @@ void CategorySelectState::init()
 
 void CategorySelectState::registerChatOptions(std::vector<ChatOption> chatOptions)
 {
-    std::vector<SharedTextEntity> categoryEntities;
+    std::vector<SharedChatCategoryEntity> categoryEntities;
     std::set<ChatCategory> categorySet;
     for(auto chatOption: chatOptions)
     {
@@ -32,17 +36,17 @@ void CategorySelectState::registerChatOptions(std::vector<ChatOption> chatOption
 
         if(categorySet.count(category) == 0)
         {
-            SharedTextEntity categoryEntity(new ChatCategoryEntity(context.getFont(), category));
+            SharedChatCategoryEntity categoryEntity(new ChatCategoryEntity(context.getFont(), category));
             categoryEntities.push_back(categoryEntity);
             categorySet.insert(category);
         }
 
         SharedTextEntity optionEntity(new ChatOptionEntity(context.getFont(), chatOption));
-        auto chatOptionList = getOrCreateChatOptionList(category);
-        chatOptionList.push_back(optionEntity);
+        getOrCreateChatOptionList(category);
+        categoryMap[category].push_back(optionEntity);
     }
 
-    chatCategoryEntities = std::unique_ptr<VectorWrapper<SharedTextEntity>>(new VectorWrapper<SharedTextEntity>(categoryEntities));
+    chatCategoryEntities = std::unique_ptr<VectorWrapper<SharedChatCategoryEntity>>(new VectorWrapper<SharedChatCategoryEntity>(categoryEntities));
 
     EventHandler& eventHandler = context.getEventHandler();
     eventHandler.registerDownListener(ButtonEvent::DOWN, [this](ButtonEvent buttonEvent)
@@ -67,22 +71,23 @@ void CategorySelectState::registerChatOptions(std::vector<ChatOption> chatOption
     });
     eventHandler.registerUpListener(ButtonEvent::SELECT, [this](ButtonEvent buttonEvent)
     {
-        std::cout << "Selected item is " << chatCategoryEntities->get(selectedItem)->getString() << "\n";
-    });
-}
+        swapState(StateId::CHAT_SELECT, [this](State* state)
+        {
+            auto chatEntities = getOrCreateChatOptionList(chatCategoryEntities->get(selectedItem)
+                    ->getChatCategory());
+            ChatOptionSelectState* selectState = dynamic_cast<ChatOptionSelectState*>(state);
+            //Yay error checking!
 
-CategorySelectState::~CategorySelectState()
-{
+            selectState->registerChatOptions(&chatEntities);
+        });
+    });
 }
 
 std::vector<SharedTextEntity>& CategorySelectState::getOrCreateChatOptionList(ChatCategory category)
 {
     auto optionListItr = categoryMap.find(category);
     if(optionListItr == categoryMap.end())
-    {
-        auto optionList = std::vector<SharedTextEntity>();
-        categoryMap[category] = optionList;
-    }
+        categoryMap.insert(std::pair<ChatCategory, std::vector<SharedTextEntity>>(category, std::vector<SharedTextEntity>()));
 
     return categoryMap[category];
 }

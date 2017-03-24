@@ -27,4 +27,7 @@ private:
     ChatCategory chatCategory;
 };
 
+
+typedef std::shared_ptr<ChatCategoryEntity> SharedChatCategoryEntity;
+
 #endif

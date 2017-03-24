@@ -43,7 +43,7 @@ private:
     static const sf::Time TRANSITION_TIME;
 
     std::map<ChatCategory, std::vector<SharedTextEntity>> categoryMap;
-    std::unique_ptr<VectorWrapper<SharedTextEntity>> chatCategoryEntities;
+    std::unique_ptr<VectorWrapper<SharedChatCategoryEntity>> chatCategoryEntities;
     sf::Vector2u windowSize;
     int selectedItem;
     int previousSelectedItem;
