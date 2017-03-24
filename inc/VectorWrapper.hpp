@@ -20,15 +20,17 @@ public:
      */
     T get(int index) const
     {
+        unsigned int unsignedIndex = index;
         if(index < 0)
         {
             while(index < 0)
                 index += collection.size();
         }
-        else if (index >= collection.size())
+        else if (unsignedIndex >= collection.size())
         {
-            while(index >= collection.size())
-                index -= collection.size();
+            while(unsignedIndex >= collection.size())
+                unsignedIndex -= collection.size();
+            index = unsignedIndex;
         }
     
         return collection[index];
