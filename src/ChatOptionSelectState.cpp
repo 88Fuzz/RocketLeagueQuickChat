@@ -1,9 +1,9 @@
 #include "ChatOptionSelectState.hpp"
-#include "SelectionConstants.hpp"
+
+#include <iostream>
 
 ChatOptionSelectState::ChatOptionSelectState(StateManager* stateManager,
-        Context& context): State(stateManager, context), chatOptions(),
-        selectedItem(0), previousSelectedItem(0), verticalOffset(0)
+        Context& context): EntityListState(stateManager, context)
 {
 }
 
@@ -11,77 +11,36 @@ ChatOptionSelectState::~ChatOptionSelectState()
 {
 }
 
-void ChatOptionSelectState::draw(sf::RenderTarget& renderTarget, sf::RenderStates renderStates) const
+void ChatOptionSelectState::registerChatOptions(std::vector<SharedTextEntity>* chatOptions)
 {
-    for(auto entity: chatOptions->getCollection())
-        entity->draw(renderTarget, renderStates);
+    for(auto entity: *chatOptions)
+        addEntity(entity);
 }
 
-void ChatOptionSelectState::update(sf::Time dt)
+void ChatOptionSelectState::initLeft()
 {
-    for(auto entity: chatOptions->getCollection())
-        entity->update(dt);
-}
-
-void ChatOptionSelectState::init()
-{
-    initOffsets();
-    initSelections();
-}
-
-void ChatOptionSelectState::registerChatOptions(std::vector<SharedTextEntity>* fuckBall)
-{
-    chatOptions = std::unique_ptr<VectorWrapper<SharedTextEntity>>(new VectorWrapper<SharedTextEntity>(std::vector<SharedTextEntity>(*fuckBall)));
-}
-
-void ChatOptionSelectState::initOffsets()
-{
-    verticalOffset = context.getWindow().getSize().y / SelectionConstants::ITEMS_TO_DISPLAY;
-}
-
-void ChatOptionSelectState::initSelections()
-{
-    for(auto entity: chatOptions->getCollection())
+    EventHandler& eventHandler = context.getEventHandler();
+    eventHandler.registerUpListener(ButtonEvent::LEFT, [this](ButtonEvent buttonEvent)
     {
-        entity->setColor(SelectionConstants::COLOR.deselected);
-        entity->setSize(SelectionConstants::SIZE.deselected);
-    }
-
-    chatOptions->get(selectedItem)->setColor(SelectionConstants::COLOR.selected);
-    chatOptions->get(selectedItem)->setSize(SelectionConstants::SIZE.selected);
-    updatePositions([](SharedTextEntity entity, float x, float y)
-    {
-        entity->setPosition(x, y);
+        swapState(StateId::CATEGORY_SELECT, [this](State* state) { });
     });
 }
 
-void ChatOptionSelectState::updateSelectedItem()
+void ChatOptionSelectState::initRight()
 {
-    chatOptions->get(selectedItem)->registerColorModifier(
-            SelectionConstants::COLOR.selected, SelectionConstants::SELECTION_TRANSITION_TIME);
-    chatOptions->get(previousSelectedItem)->registerColorModifier(
-            SelectionConstants::COLOR.deselected, SelectionConstants::SELECTION_TRANSITION_TIME);
-
-    chatOptions->get(selectedItem)->registerSizeModifier(
-            SelectionConstants::SIZE.selected, SelectionConstants::SELECTION_TRANSITION_TIME);
-    chatOptions->get(previousSelectedItem)->registerSizeModifier(
-            SelectionConstants::SIZE.deselected, SelectionConstants::SELECTION_TRANSITION_TIME);
-
-    updatePositions([](SharedTextEntity entity, float x, float y)
-    {
-        entity->registerPositionModifer(sf::Vector2f(x, y), SelectionConstants::SELECTION_TRANSITION_TIME);
-    });
+    registerSelection(ButtonEvent::RIGHT);
 }
 
-void ChatOptionSelectState::updatePositions(std::function<void(SharedTextEntity&, float, float)> processor)
+void ChatOptionSelectState::initSelect()
 {
-    sf::Vector2f offset = SelectionConstants::DISPLAY_OFFSET;
-    SharedTextEntity entity = chatOptions->get(selectedItem);
-    processor(entity, offset.x, offset.y);
+    registerSelection(ButtonEvent::SELECT);
+}
 
-    for(int i = 1; i < chatOptions->size(); i++)
+void ChatOptionSelectState::registerSelection(ButtonEvent buttonEvent)
+{
+    EventHandler& eventHandler = context.getEventHandler();
+    eventHandler.registerUpListener(buttonEvent, [this](ButtonEvent buttonEvent)
     {
-        entity = chatOptions->get(selectedItem + i);
-        processor(entity, offset.x, offset.y + verticalOffset * i);
-    }
+        std::cout << getSelectedItem()->getString() << "\n";
+    });
 }
