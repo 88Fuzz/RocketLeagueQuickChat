@@ -11,6 +11,12 @@ EventHandler::EventHandler()
     buttonEventKey[ButtonEvent::SELECT] = sf::Keyboard::Key::Return;
 }
 
+void EventHandler::clearAllListeners()
+{
+    buttonDownListener.clear();
+    buttonUpListener.clear();
+}
+
 bool EventHandler::checkButtonStatus(sf::Keyboard::Key key)
 {
     return sf::Keyboard::isKeyPressed(key);

@@ -14,6 +14,11 @@ class EventHandler
 public:
     EventHandler();
     /*
+     * Clears all listeners.
+     */
+    void clearAllListeners();
+
+    /*
      * Register a function to be called whenever a ButtenEven is pressed.
      */
     void registerDownListener(ButtonEvent, std::function<void(ButtonEvent)>);
