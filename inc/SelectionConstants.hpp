@@ -10,7 +10,7 @@
 struct SelectionConstants
 {
     static const sf::Vector2f DISPLAY_OFFSET;
-    static const int ITEMS_TO_DISPLAY;
+    static const unsigned int ITEMS_TO_DISPLAY;
     static const SelectionHolder<int> SIZE;
     static const SelectionHolder<sf::Color> COLOR;
     static const sf::Time SELECTION_TRANSITION_TIME;

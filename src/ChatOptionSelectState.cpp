@@ -22,7 +22,10 @@ void ChatOptionSelectState::initLeft()
     EventHandler& eventHandler = context.getEventHandler();
     eventHandler.registerDownListener(ButtonEvent::LEFT, [this](ButtonEvent buttonEvent)
     {
-        swapState(StateId::CATEGORY_SELECT, [this](State* state) { });
+        transitionOut([this]()
+        {
+            swapState(StateId::CATEGORY_SELECT, [this](State* state) { });
+        });
     });
 }
 

@@ -94,7 +94,7 @@ template<typename T> void EntityListState<T>::transitionOut(std::function<void()
     for(auto entity: entities->getCollection())
     {
         entity->registerSizeModifier(0, SelectionConstants::SELECTION_TRANSITION_TIME);
-        entity->registerPositionModifier(sf::Vector2f(0,verticalMidpoint),
+        entity->registerPositionModifier(sf::Vector2f(-SelectionConstants::DISPLAY_OFFSET.x,verticalMidpoint),
                 SelectionConstants::SELECTION_TRANSITION_TIME);
     }
 
@@ -178,15 +178,20 @@ template<typename T> void EntityListState<T>::initSelections()
 {
     for(auto entity: entities->getCollection())
     {
+        entity->setPositionAndCancelModifiers(0, verticalMidpoint);
         entity->setColor(SelectionConstants::COLOR.deselected);
-        entity->setSize(SelectionConstants::SIZE.deselected);
+        entity->setSize(0);
+        entity->registerSizeModifier(SelectionConstants::SIZE.deselected,
+                SelectionConstants::SELECTION_TRANSITION_TIME);
     }
 
     entities->get(selectedItem)->setColor(SelectionConstants::COLOR.selected);
-    entities->get(selectedItem)->setSize(SelectionConstants::SIZE.selected);
+    entities->get(selectedItem)->registerSizeModifier(SelectionConstants::SIZE.deselected,
+            SelectionConstants::SELECTION_TRANSITION_TIME);
     updatePositions([](SharedTextEntity entity, float x, float y)
     {
-        entity->setPositionAndCancelModifiers(x, y);
+        entity->registerPositionModifier(sf::Vector2f(x, y),
+                SelectionConstants::SELECTION_TRANSITION_TIME);
     });
 }
 
@@ -217,8 +222,11 @@ template<typename T> void EntityListState<T>::updatePositions(std::function<void
 
     for(unsigned int i = 1; i < entities->getCollection().size(); i++)
     {
+        float y = offset.y + verticalOffset * i;
+        if(i >= SelectionConstants::ITEMS_TO_DISPLAY)
+            y = context.getWindow().getSize().y + verticalOffset;
         entity = entities->get(selectedItem + i);
-        processor(entity, offset.x, offset.y + verticalOffset * i);
+        processor(entity, offset.x, y);
     }
 }
 
