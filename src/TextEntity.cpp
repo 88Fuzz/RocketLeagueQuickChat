@@ -27,6 +27,12 @@ void TextEntity::registerPositionModifer(sf::Vector2f position, sf::Time time)
     modifiers.push_back(std::unique_ptr<PositionModifier>(new PositionModifier(this, time, getPosition(), position)));
 }
 
+void TextEntity::setPositionAndCancelModifiers(float x, float y)
+{
+    modifiers.clear();
+    setPosition(x, y);
+}
+
 void TextEntity::draw(sf::RenderTarget& renderTarget, sf::RenderStates renderStates) const
 {
     renderTarget.draw(text);

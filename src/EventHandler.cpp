@@ -1,7 +1,5 @@
 #include "EventHandler.hpp"
 
-#include <iostream>
-
 EventHandler::EventHandler()
 {
     buttonEventKey[ButtonEvent::UP] = sf::Keyboard::Key::Up;
@@ -44,8 +42,6 @@ void EventHandler::handleEvents(sf::Time dt)
             auto action = buttonDownListener.find(itr.first);
             if(action != buttonDownListener.end())
                 action->second(itr.first);
-            else
-                std::cout << "Button is pressed for the first time but nothing to do!\n";
         }
         else if(!buttonDown && activeButton != activeButtonEvents.end())
         {
@@ -53,8 +49,6 @@ void EventHandler::handleEvents(sf::Time dt)
             auto action = buttonUpListener.find(itr.first);
             if(action != buttonUpListener.end())
                 action->second(itr.first);
-            else
-                std::cout << "Button is released for the first time but nothing to do!\n";
         }
     }
 }

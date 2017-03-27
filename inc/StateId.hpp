@@ -5,6 +5,7 @@ enum StateId
 {
     CATEGORY_SELECT,
     CHAT_SELECT,
+    SINGLE_CHAT,
     END_STATE_ID
 };
 

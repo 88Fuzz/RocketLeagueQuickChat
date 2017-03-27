@@ -48,7 +48,7 @@ void CategorySelectState::initRight()
 void CategorySelectState::registerSelection(ButtonEvent buttonEvent)
 {
     EventHandler& eventHandler = context.getEventHandler();
-    eventHandler.registerUpListener(buttonEvent, [this](ButtonEvent buttonEvent)
+    eventHandler.registerDownListener(buttonEvent, [this](ButtonEvent buttonEvent)
     {
         swapState(StateId::CHAT_SELECT, [this](State* state)
         {

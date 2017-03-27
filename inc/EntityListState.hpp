@@ -17,7 +17,9 @@ public:
 
 protected:
     T getSelectedItem();
+    void resetState();
     void addEntity(T entity);
+    std::vector<T>& getCollection();
     virtual void initUp();
     virtual void initDown();
     virtual void initLeft();
@@ -120,9 +122,21 @@ template<typename T> T EntityListState<T>::getSelectedItem()
     return entities->get(selectedItem);
 }
 
+template<typename T> void EntityListState<T>::resetState()
+{
+    entities->getCollection().clear();
+    selectedItem = 0;
+    previousSelectedItem = 0;
+}
+
 template<typename T> void EntityListState<T>::addEntity(T entity)
 {
     entities->getCollection().push_back(entity);
+}
+
+template<typename T> std::vector<T>& EntityListState<T>::getCollection()
+{
+    return entities->getCollection();
 }
 
 template<typename T> void EntityListState<T>::initSelections()
@@ -137,7 +151,7 @@ template<typename T> void EntityListState<T>::initSelections()
     entities->get(selectedItem)->setSize(SelectionConstants::SIZE.selected);
     updatePositions([](SharedTextEntity entity, float x, float y)
     {
-        entity->setPosition(x, y);
+        entity->setPositionAndCancelModifiers(x, y);
     });
 }
 

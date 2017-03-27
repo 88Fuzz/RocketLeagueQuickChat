@@ -46,6 +46,10 @@ public:
      * Linearly move the text to position Vector2f on the screen over the time specified.
      */
     void registerPositionModifer(sf::Vector2f, sf::Time);
+    /*
+     * Sets the position of the text and cancels any movement that may be in place
+     */
+    void setPositionAndCancelModifiers(float, float);
     void setSize(int);
     void setColor(sf::Color);
     void setString(std::string);

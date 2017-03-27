@@ -5,7 +5,6 @@
 
 #include <SFML/Graphics.hpp>
 #include <sstream>
-#include <iostream>
 
 const sf::Time Application::TIME_PER_FRAME = sf::seconds(1.f / 30.f);
 

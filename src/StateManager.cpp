@@ -1,12 +1,14 @@
 #include "StateManager.hpp"
 #include "CategorySelectState.hpp"
 #include "ChatOptionSelectState.hpp"
+#include "SingleChatOptionState.hpp"
 
 StateManager::StateManager(Context& context):
     context(context)
 {
     createState<CategorySelectState>(StateId::CATEGORY_SELECT);
     createState<ChatOptionSelectState>(StateId::CHAT_SELECT);
+    createState<SingleChatOptionState>(StateId::SINGLE_CHAT);
 }
 
 bool StateManager::hasPendingState()
