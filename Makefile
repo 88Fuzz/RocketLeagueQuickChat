@@ -18,16 +18,21 @@ CFLAGS+=-I$(LOCAL_INCLUDES) -I$(SFML_INCS)
 
 LFLAGS=-L$(SFML_LIBS)
 
-all: dirs setupRelease $(OBJS) $(PROJECT_NAME)
+all: dirs setupFastRelease $(OBJS) $(PROJECT_NAME)
+release: dirs setupRelease $(OBJS) $(PROJECT_NAME)
 debug: dirs setupDebug $(OBJS) $(PROJECT_NAME)
 
 dirs:
 	@echo Making directories...
 	@mkdir -p $(DIRS)
 
-setupRelease:
-	@echo Adding release flags...
+setupFastRelease:
+	@echo Adding quick compile flags...
 	$(eval CFLAGS_RELEASE = $(CFLAGS) -O0)
+
+setupRelease:
+	@echo Adding optimization flags...
+	$(eval CFLAGS_RELEASE = $(CFLAGS) -O3)
 
 setupDebug:
 	@echo Adding debug flags...
