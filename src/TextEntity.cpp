@@ -12,6 +12,11 @@ TextEntity::~TextEntity()
 {
 }
 
+bool TextEntity::hasActiveModifiers()
+{
+    return modifiers.size() != 0;
+}
+
 void TextEntity::registerSizeModifier(int size, sf::Time time)
 {
     modifiers.push_back(std::unique_ptr<SizeModifier>(new SizeModifier(this, time, text.getCharacterSize(), size)));
@@ -22,7 +27,7 @@ void TextEntity::registerColorModifier(sf::Color color, sf::Time time)
     modifiers.push_back(std::unique_ptr<ColorModifier>(new ColorModifier(this, time, text.getFillColor(), color)));
 }
 
-void TextEntity::registerPositionModifer(sf::Vector2f position, sf::Time time)
+void TextEntity::registerPositionModifier(sf::Vector2f position, sf::Time time)
 {
     modifiers.push_back(std::unique_ptr<PositionModifier>(new PositionModifier(this, time, getPosition(), position)));
 }

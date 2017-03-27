@@ -50,13 +50,16 @@ void CategorySelectState::registerSelection(ButtonEvent buttonEvent)
     EventHandler& eventHandler = context.getEventHandler();
     eventHandler.registerDownListener(buttonEvent, [this](ButtonEvent buttonEvent)
     {
-        swapState(StateId::CHAT_SELECT, [this](State* state)
+        transitionOut([this]()
         {
-            auto chatEntities = getOrCreateChatOptionList(getSelectedItem()->getChatCategory());
-            ChatOptionSelectState* selectState = dynamic_cast<ChatOptionSelectState*>(state);
-            //Yay error checking!
+            swapState(StateId::CHAT_SELECT, [this](State* state)
+            {
+                auto chatEntities = getOrCreateChatOptionList(getSelectedItem()->getChatCategory());
+                ChatOptionSelectState* selectState = dynamic_cast<ChatOptionSelectState*>(state);
+                //Yay error checking!
 
-            selectState->registerChatOptions(&chatEntities);
+                selectState->registerChatOptions(&chatEntities);
+            });
         });
     });
 }

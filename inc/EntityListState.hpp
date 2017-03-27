@@ -20,6 +20,8 @@ protected:
     void resetState();
     void addEntity(T entity);
     std::vector<T>& getCollection();
+
+    void transitionOut(std::function<void()>);
     virtual void initUp();
     virtual void initDown();
     virtual void initLeft();
@@ -30,7 +32,9 @@ private:
     int selectedItem;
     int previousSelectedItem;
     float verticalOffset;
+    float verticalMidpoint;
     std::unique_ptr<VectorWrapper<T>> entities;
+    std::function<void()> transitionFinisher;
 
     void initEvents();
     void initSelections();
@@ -40,9 +44,10 @@ private:
 
 template<typename T> EntityListState<T>::EntityListState(StateManager* stateManager, Context& context): 
     State(stateManager, context), selectedItem(0), previousSelectedItem(0),
-    verticalOffset(0), entities(new VectorWrapper<T>(std::vector<T>()))
+    verticalOffset(0), entities(new VectorWrapper<T>(std::vector<T>())), transitionFinisher(nullptr)
 {
     verticalOffset = context.getWindow().getSize().y / SelectionConstants::ITEMS_TO_DISPLAY;
+    verticalMidpoint = context.getWindow().getSize().y / 2;
 }
 
 template<typename T> EntityListState<T>::~EntityListState()
@@ -59,12 +64,42 @@ template<typename T> void EntityListState<T>::update(sf::Time dt)
 {
     for(auto entity: entities->getCollection())
         entity->update(dt);
+
+    if(transitionFinisher)
+    {
+        bool stateFinished = true;
+        for(auto entity: entities->getCollection())
+        {
+            if(entity->hasActiveModifiers())
+            {
+                stateFinished = false;
+                break;
+            }
+        }
+
+        if(stateFinished)
+            transitionFinisher();
+    }
 }
 
 template<typename T> void EntityListState<T>::init()
 {
+    transitionFinisher = nullptr;
     initEvents();
     initSelections();
+}
+
+template<typename T> void EntityListState<T>::transitionOut(std::function<void()> transitionFinisher)
+{
+    for(auto entity: entities->getCollection())
+    {
+        entity->registerSizeModifier(0, SelectionConstants::SELECTION_TRANSITION_TIME);
+        entity->registerPositionModifier(sf::Vector2f(0,verticalMidpoint),
+                SelectionConstants::SELECTION_TRANSITION_TIME);
+    }
+
+    context.getEventHandler().clearAllListeners();
+    this->transitionFinisher = transitionFinisher;
 }
 
 template<typename T> void EntityListState<T>::initEvents()
@@ -169,7 +204,7 @@ template<typename T> void EntityListState<T>::updateSelectedItem()
 
     updatePositions([](SharedTextEntity entity, float x, float y)
     {
-        entity->registerPositionModifer(sf::Vector2f(x, y), SelectionConstants::SELECTION_TRANSITION_TIME);
+        entity->registerPositionModifier(sf::Vector2f(x, y), SelectionConstants::SELECTION_TRANSITION_TIME);
     });
 }
 

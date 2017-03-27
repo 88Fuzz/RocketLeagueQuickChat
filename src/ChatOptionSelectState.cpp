@@ -41,11 +41,14 @@ void ChatOptionSelectState::registerSelection(ButtonEvent buttonEvent)
     EventHandler& eventHandler = context.getEventHandler();
     eventHandler.registerDownListener(buttonEvent, [this](ButtonEvent buttonEvent)
     {
-        swapState(StateId::SINGLE_CHAT, [this](State* state)
+        transitionOut([this]()
         {
-            SingleChatOptionState* singleState = dynamic_cast<SingleChatOptionState*>(state);
-            //YAY error checking!
-            singleState->registerChatOption(getSelectedItem(), &getCollection());
+            swapState(StateId::SINGLE_CHAT, [this](State* state)
+            {
+                SingleChatOptionState* singleState = dynamic_cast<SingleChatOptionState*>(state);
+                //YAY error checking!
+                singleState->registerChatOption(getSelectedItem(), &getCollection());
+            });
         });
     });
 }

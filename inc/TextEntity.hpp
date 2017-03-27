@@ -35,6 +35,11 @@ public:
     virtual void update(sf::Time);
 
     /*
+     * Returns true if any modifier is currently moving the text.
+     */
+    bool hasActiveModifiers();
+
+    /*
      * Linearly change the size of the font over the specified time.
      */
     void registerSizeModifier(int, sf::Time);
@@ -45,7 +50,7 @@ public:
     /*
      * Linearly move the text to position Vector2f on the screen over the time specified.
      */
-    void registerPositionModifer(sf::Vector2f, sf::Time);
+    void registerPositionModifier(sf::Vector2f, sf::Time);
     /*
      * Sets the position of the text and cancels any movement that may be in place
      */
