@@ -3,6 +3,7 @@ LOCAL_INCLUDES=inc/
 SFML_INCS=/home/kyle/workspace/SFML-master/include/
 SFML_LIBS=/home/kyle/workspace/SFML-master/build/lib/
 SFML_LINKS=-lsfml-graphics -lsfml-window -lsfml-system
+WIRING_PI_LINKS=-lwiringPi
 DIRS=obj bin
 
 CC=g++
@@ -17,6 +18,7 @@ CFLAGS=-Wall -c -std=c++1y
 CFLAGS+=-I$(LOCAL_INCLUDES) -I$(SFML_INCS)
 
 LFLAGS=-L$(SFML_LIBS)
+LINKS=$(SFML_LINKS) $(WIRING_PI_LINKS)
 
 all: dirs setupFastRelease $(OBJS) $(PROJECT_NAME)
 release: dirs setupRelease $(OBJS) $(PROJECT_NAME)
@@ -46,7 +48,7 @@ obj/%.o: src/%.cpp
 ${PROJECT_NAME}: $(OBJS)
 	@echo
 	@echo Linking $<
-	$(LL) $(LFLAGS) $(OBJS) $(SFML_LINKS) -o $(EXE)
+	$(LL) $(LFLAGS) $(OBJS) $(LINKS) -o $(EXE)
 
 clean:
 	@echo Cleaning up...

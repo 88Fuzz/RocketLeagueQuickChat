@@ -1,12 +1,12 @@
 #include "EventHandler.hpp"
 
-EventHandler::EventHandler()
+EventHandler::EventHandler(): hardware()
 {
-    buttonEventKey[ButtonEvent::UP] = sf::Keyboard::Key::Up;
-    buttonEventKey[ButtonEvent::DOWN] = sf::Keyboard::Key::Down;
-    buttonEventKey[ButtonEvent::LEFT] = sf::Keyboard::Key::Left;
-    buttonEventKey[ButtonEvent::RIGHT] = sf::Keyboard::Key::Right;
-    buttonEventKey[ButtonEvent::SELECT] = sf::Keyboard::Key::Return;
+    buttonEventKey[ButtonEvent::UP] = Hardware::Button::UP;
+    buttonEventKey[ButtonEvent::DOWN] = Hardware::Button::DOWN;
+    buttonEventKey[ButtonEvent::LEFT] = Hardware::Button::LEFT;
+    buttonEventKey[ButtonEvent::RIGHT] = Hardware::Button::RIGHT;
+    buttonEventKey[ButtonEvent::SELECT] = Hardware::Button::SELECT;
 }
 
 void EventHandler::clearAllListeners()
@@ -15,9 +15,9 @@ void EventHandler::clearAllListeners()
     buttonUpListener.clear();
 }
 
-bool EventHandler::checkButtonStatus(sf::Keyboard::Key key)
+bool EventHandler::checkButtonStatus(Hardware::Button button)
 {
-    return sf::Keyboard::isKeyPressed(key);
+    return hardware.isButtonPressed(button);
 }
 
 void EventHandler::registerDownListener(ButtonEvent buttonEvent, std::function<void(ButtonEvent)> callback)
