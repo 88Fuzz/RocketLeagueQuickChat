@@ -17,7 +17,7 @@ Application::Application(sf::RenderWindow& window) :
                 testing(0)
 {
     window.setKeyRepeatEnabled(false);
-    font.loadFromFile("fonts/Pacifico.ttf");
+    font.loadFromFile("fonts/GoGoPosterPunch.otf");
 
     statisticsText.setFont(font);
     statisticsText.setFillColor(sf::Color::Green);
@@ -98,7 +98,7 @@ void Application::update(sf::Time dt)
 
 void Application::render()
 {
-    window.clear();
+    window.clear(sf::Color(0, 35, 91));
 
     window.draw(*currentState);
     window.draw(statisticsText);

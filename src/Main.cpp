@@ -10,7 +10,7 @@
 int main()
 {
     sf::VideoMode videoMode = sf::VideoMode::getFullscreenModes()[0];
-    sf::RenderWindow window(videoMode, "RocketLeagueQuickChat", sf::Style::Titlebar);
+    sf::RenderWindow window(videoMode, "RocketLeagueQuickChat", sf::Style::Fullscreen);
     Application application(window);
     application.run();
 

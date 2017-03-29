@@ -5,7 +5,7 @@
 SingleChatOptionState::SingleChatOptionState(StateManager* stateManager, Context& context): 
     State(stateManager, context),verticalOffset(0)
 {
-    verticalOffset = context.getWindow().getSize().y / 2;
+    verticalOffset = context.getWindow().getSize().y / 2 - SelectionConstants::SIZE.selected *1.5;
 }
 
 SingleChatOptionState::~SingleChatOptionState()
@@ -28,7 +28,7 @@ void SingleChatOptionState::init()
     initBack(ButtonEvent::LEFT);
     initBack(ButtonEvent::SELECT);
     entity->setPositionAndCancelModifiers(SelectionConstants::DISPLAY_OFFSET.x, verticalOffset);
-    entity->setSize(SelectionConstants::SIZE.selected);
+    entity->setSize(SelectionConstants::SIZE.selected * 1.5);
     entity->setColor(SelectionConstants::COLOR.selected);
 
 }
